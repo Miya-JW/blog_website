@@ -1,0 +1,98 @@
+<div class="login_container">
+
+
+    <div class="container-log-reg">
+
+        <div class="form-box">
+            <!--    log in ---------------------------------------------->
+            <div class="login-box ">
+                <div class="title">Log in</div>
+
+                <div class="subtitle">Reconnect with Your Thoughts</div>
+                <p></p>
+                <div class="input-container ic1">
+                    <input placeholder="" type="text" class="input" id="username">
+                    <div class="cut"></div>
+                    <label class="iLabel" for="username">Username</label>
+                </div>
+
+                <div class="input-container ic2">
+                    <input placeholder="" type="password" class="input" id="password">
+                    <div class="cut"></div>
+                    <label class="iLabel" for="password">Password</label>
+                </div>
+
+
+                <button class="submit" type="text">Journey Begins</button>
+            </div>
+
+            <!--register---------------------------->
+            <div class="register-box hidden ">
+                <div class="title">Register</div>
+                <div class="input-container ic2">
+                    <input placeholder="" type="text" class="input" id="user_username">
+                    <div class="cut"></div>
+                    <label class="iLabel" for="user_username">Username</label>
+                </div>
+                <div class="input-container ic2">
+                    <input placeholder="" type="password" class="input" id="user_password">
+                    <div class="cut"></div>
+                    <label class="iLabel" for="user_password">Password</label>
+                </div>
+                <div class="input-container ic2">
+                    <input placeholder="" type="text" class="input" id="user_real_name">
+                    <div class="cut"></div>
+                    <label class="iLabel" for="user_real_name">Real name</label>
+                </div>
+                <div class="input-container ic2">
+                    <input placeholder="" type="date" class="input" id="user_date_of_birth">
+                    <div class="cut"></div>
+                    <label class="iLabel hide_iLabel" for="user_date_of_birth">Date of birth</label>
+                </div>
+                <div class="input-container ic2">
+                    <input placeholder="" type="text" class="input" id="user_description">
+                    <div class="cut"></div>
+                    <label class="iLabel" for="user_description">About yourself</label>
+                </div>
+                <button class="submit" type="text">Join the journey</button>
+            </div>
+        </div>
+
+
+        <div class="con-box left">
+            <h2> Your Blog Awaits You</h2>
+            <img src="./image/background2.jpg">
+            <button id="login">Log in</button>
+        </div>
+
+        <div class="con-box right">
+            <h2> Need an account?</h2>
+            <img src="./image/background2.jpg">
+            <button id="register">Register</button>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    let login = document.querySelector("#login");
+    let register = document.querySelector("#register");
+    let form_box = document.querySelector(".form-box");
+    let register_box = document.querySelector(".register-box");
+    let login_box = document.querySelector(".login-box");
+
+    register.addEventListener('click', () => {
+        form_box.style.transform = 'translateX(80%)';
+        login_box.classList.add('hidden');
+        register_box.classList.remove('hidden');
+    })
+
+    login.addEventListener('click', () => {
+        form_box.style.transform = 'translateX(0%)';
+        register_box.classList.add('hidden');
+        login_box.classList.remove('hidden');
+    })
+
+
+</script>

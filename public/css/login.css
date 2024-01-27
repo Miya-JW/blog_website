@@ -1,0 +1,241 @@
+.login_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+}
+
+.container-log-reg {
+    background-color: #fff;
+    width: 650px;
+    height: 450px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-family: "Gowun Batang", Geneva, sans-serif;
+}
+
+.con-box {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.con-box. p {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #8e9aaf;
+    text-align: center;
+}
+
+.con-box.left {
+    left: -2%;
+}
+
+.con-box.right {
+    right: -2%;
+}
+
+.con-box img {
+
+    height: 220px;
+    opacity: 0.9;
+    margin: 40px 0;
+}
+
+.form-box {
+    position: absolute;
+    top: -10%;
+    left: 5%;
+    background-color: #15172b;
+    width: 320px;
+    height: 550px;
+    border-radius: 5px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transition: 0.5s ease-in-out;
+}
+
+
+.login-box, .register-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.login-box {
+    background-color: #15172b;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 500px;
+    padding: 20px;
+    width: 320px;
+
+}
+
+.register-box {
+    background-color: #15172b;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 550px;
+    padding: 5px 20px 30px 20px;
+    width: 320px;
+
+}
+
+
+.title {
+    color: #eee;
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+}
+
+.subtitle {
+    color: #eee;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.input-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+}
+
+.ic1 {
+    margin-top: 40px;
+}
+
+.ic2 {
+    margin-top: 30px;
+}
+
+.input {
+    background-color: #303245;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+}
+
+.cut {
+    background-color: #15172b;
+    border-radius: 10px;
+    height: 20px;
+    left: 20px;
+    position: absolute;
+    top: -20px;
+    transform: translateY(0);
+    transition: transform 200ms;
+    width: 100px;
+    justify-content: center;
+    text-align: center;
+}
+
+.hide_iLabel {
+    display: none;
+}
+
+.iLabel {
+    color: #65657b;
+    left: 20px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 200ms, color 200ms;
+    top: 20px;
+}
+
+
+.input:focus ~ .cut,
+.input:not(:placeholder-shown) ~ .cut {
+    transform: translateY(8px);
+}
+
+
+.input:focus ~ .iLabel,
+.input:not(:placeholder-shown) ~ .iLabel {
+    display: flex;
+    transform: translateY(-30px) translateX(10px) scale(0.75);
+    color: lightgrey;
+}
+
+
+.input:focus {
+    color: var(--btn-color);
+    outline: none;
+    border: 1px solid lightgrey;
+    transition: 0.5s;
+}
+
+.input:not(focus) ~ .iLabel {
+    color: #808097;
+}
+
+.submit {
+    background-color: var(--btn-color);
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    margin-top: 38px;
+    text-align: center;
+    width: 100%;
+}
+
+.submit:active {
+    background-color: #06b;
+}
+
+.con-box button {
+    margin-top: 3%;
+    background-color: var(--btn-color);
+    color: #eee;
+    letter-spacing: 1px;
+    font-size: large;
+    border-radius: 10px;
+    border: 0 solid lightgrey;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+.con-box button:hover {
+    background-color: lightgrey;
+    color: var(--btn-color);
+    transition: background-color 0.5s ease;
+}
+
+.form-box button:hover {
+    background-color: lightgrey;
+    color: var(--btn-color);
+    transition: background-color 0.5s ease;
+}
+
+
+.hidden {
+    display: none;
+    transition: 0.5s;
+}
+
