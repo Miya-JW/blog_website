@@ -1,0 +1,43 @@
+<div class="blog grid_2{{#if user}} grid_3{{/if}}">
+
+    <div class="sort-area">
+        <p>Sort by</p>
+        <button onclick="sort('title')">Title</button>
+        <button onclick="sort('date')">Date</button>
+        <button onclick="sort('author_name')">Author name</button>
+    </div>
+
+    <div class="articles">
+        {{#if articles}}
+            <div class="showArticles">
+                {{#each articles as |article|}}
+                    <div class="article">
+                        <h2>{{article.title}}</h2>
+                        <p>{{article.content}}</p>
+                        <p>By: {{article.author_name}}</p>
+                        <p>like:{{article.like}}</p>
+                        <p>{{article.date}}</p>
+
+                    </div>
+                {{/each}}
+            </div>
+        {{else}}
+            <p>No articles yet</p>
+        {{/if}}
+    </div>
+
+    <div class="{{#if user}}public_content{{/if}}">
+        <div class="blog_sort1"></div>
+    </div>
+
+    {{#if user}}
+        <div class="user_profile"></div>
+
+        <div class="user_content">
+            <div class="writer"></div>
+            <div class="blog_sort2"></div>
+            <div class="user_articles"></div>
+        </div>
+    {{/if}}
+
+</div>
