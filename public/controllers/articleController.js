@@ -11,7 +11,7 @@
 function toggleContent(element){
     document.querySelectorAll('.click').forEach(function(title) {
         title.addEventListener('click', function() {
-            let content = this.nextElementSibling;
+            let content = this.nextElementSibling.nextElementSibling.nextElementSibling;
             content.classList.toggle('hidden');
         });
     });

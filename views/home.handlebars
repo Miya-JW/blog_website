@@ -17,12 +17,16 @@
                     {{#each articles as |article|}}
                         <div class="article">
                             <h2 class="click" onclick="toggleContent(this)">{{article.title}}</h2>
+                            <p>By: <em>{{article.author_name}}</em></p>
+                            <p class="small_font">{{article.date}}</p>
+
                             <p class="article_content hidden" >{{article.content}}</p>
-                            <p>By: {{article.author_name}}</p>
+
                             <button class="heart_btn"><img class="heart" src="./image/heart.jpg"></button>
                             <span> × {{article.likes}}</span>
-                            <!--                        <p>like:{{article.like}}</p>-->
-                            <p>{{article.date}}</p>
+
+                            <button class="comment_btn"><img class="comment" src="./image/comment_icon.jpg"></button>
+                            <span> × {{comment_num}}</span>
 
                         </div>
                     {{/each}}
@@ -77,11 +81,15 @@
                     {{#each user_articles as |article|}}
                         <div class="article">
                             <h2 class="click" onclick="toggleContent(this)">{{article.title}}</h2>
+                            <p>Cooked up in my brain kitchen!</p>
+                            <p class="small_font">{{article.date}}</p>
+
                             <p class="article_content hidden">{{article.content}}</p>
 
                             <button class="heart_btn"><img class="heart" src="./image/heart.jpg"></button>
                             <span> × {{article.likes}}</span>
-                            <p>{{article.date}}</p>
+                            <button class="comment_btn"><img class="comment" src="./image/comment_icon.jpg"></button>
+                            <span> × {{comment_num}}</span>
                         </div>
                     {{/each}}
                 </div>

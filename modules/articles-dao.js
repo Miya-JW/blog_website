@@ -13,19 +13,35 @@ async function retrieveArticle(authorId,articleId){}
 
 async function deleteArticle(authorId,articleId){}
 
-async function retrieveAllArticlesById(authorId){}
+async function retrieveAllArticlesById(username){
+    const db = await database;
+    const result= await db.query("select * from articles where author_name=? ORDER BY date DESC",[username]);
+    return result;
+}
 
 async function retrieveAllArticles(){
     const db = await database;
     const result = await db.query("select * from articles ");
-    console.log(result);
     return result;
 
 }
+
+
+async function retrieveAllArticlesSorted(sortBy) {
+    const validSortColumns = ['articleId', 'title', 'date', 'likes', 'author_name'];
+    if (!validSortColumns.includes(sortBy)) {
+        throw new Error('Invalid sort column');
+    }
+    const db=await database;
+    const result = await db.query(`SELECT * FROM articles ORDER BY ${sortBy} DESC`);
+    return result
+}
+
 module.exports={
     createArticle,
     retrieveArticle,
     retrieveAllArticlesById,
     deleteArticle,
-    retrieveAllArticles
+    retrieveAllArticles,
+    retrieveAllArticlesSorted
 };
