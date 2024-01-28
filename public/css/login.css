@@ -51,11 +51,11 @@
 
 .form-box {
     position: absolute;
-    top: -10%;
+    top: -5%;
     left: 5%;
     background-color: #15172b;
     width: 320px;
-    height: 550px;
+    height: 500px;
     border-radius: 5px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 1);
     display: flex;
@@ -71,27 +71,33 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-}
-
-.login-box {
     background-color: #15172b;
     border-radius: 20px;
     box-sizing: border-box;
     height: 500px;
     padding: 20px;
     width: 320px;
-
 }
 
-.register-box {
-    background-color: #15172b;
-    border-radius: 20px;
-    box-sizing: border-box;
-    height: 550px;
-    padding: 5px 20px 30px 20px;
-    width: 320px;
+/*.login-box .register-box {*/
+/*    background-color: #15172b;*/
+/*    border-radius: 20px;*/
+/*    box-sizing: border-box;*/
+/*    height: 500px;*/
+/*    padding: 20px;*/
+/*    width: 320px;*/
 
-}
+/*}*/
+
+/*.register-box {*/
+/*    background-color: #15172b;*/
+/*    border-radius: 20px;*/
+/*    box-sizing: border-box;*/
+/*    height: 550px;*/
+/*    padding: 5px 20px 30px 20px;*/
+/*    width: 320px;*/
+
+/*}*/
 
 
 .title {
@@ -119,7 +125,7 @@
 }
 
 .ic2 {
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .input {
@@ -163,6 +169,8 @@
     transition: transform 200ms, color 200ms;
     top: 20px;
 }
+
+
 
 
 .input:focus ~ .cut,
@@ -238,4 +246,21 @@
     display: none;
     transition: 0.5s;
 }
+
+#avatar_icon{
+    width: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#avatarButton{
+    padding-right: 30px;
+    margin: 0;
+
+}
+
+.message{
+    color: var(--active-color);
+}
+
 

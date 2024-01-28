@@ -5,19 +5,21 @@
 
         <div class="form-box">
             <!--    log in ---------------------------------------------->
+            <form class="form" action="./login" method="post" autocomplete="off">
             <div class="login-box ">
                 <div class="title">Log in</div>
 
                 <div class="subtitle">Reconnect with Your Thoughts</div>
-                <p></p>
+                <p class="message">{{message}}</p>
+
                 <div class="input-container ic1">
-                    <input placeholder="" type="text" class="input" id="username">
+                    <input placeholder="" type="text"name="username" class="input" id="username" required >
                     <div class="cut"></div>
                     <label class="iLabel" for="username">Username</label>
                 </div>
 
-                <div class="input-container ic2">
-                    <input placeholder="" type="password" class="input" id="password">
+                <div class="input-container ic1">
+                    <input placeholder="" type="password" name="password" class="input" id="password" required>
                     <div class="cut"></div>
                     <label class="iLabel" for="password">Password</label>
                 </div>
@@ -25,37 +27,51 @@
 
                 <button class="submit" type="text">Journey Begins</button>
             </div>
-
+            </form>
             <!--register---------------------------->
+            <form class="form" action="./newAccount" method="post" autocomplete="off">
             <div class="register-box hidden ">
                 <div class="title">Register</div>
-                <div class="input-container ic2">
-                    <input placeholder="" type="text" class="input" id="user_username">
+                <div class="subtitle">Blog away with a click!</div>
+                <p class="message">{{message}}</p>
+
+                <div class="input-container ic1">
+                    <input placeholder="" type="text" name="userName" class="input" id="user_username" required>
                     <div class="cut"></div>
                     <label class="iLabel" for="user_username">Username</label>
                 </div>
                 <div class="input-container ic2">
-                    <input placeholder="" type="password" class="input" id="user_password">
+                    <input placeholder="" type="password" name="password" class="input" id="user_password" required>
                     <div class="cut"></div>
                     <label class="iLabel" for="user_password">Password</label>
                 </div>
+
                 <div class="input-container ic2">
-                    <input placeholder="" type="text" class="input" id="user_real_name">
+                    <input placeholder="" type="password" name="password_repeat" class="input" id="user_password_repeat" required>
                     <div class="cut"></div>
-                    <label class="iLabel" for="user_real_name">Real name</label>
+                    <label class="iLabel" for="user_password">Password</label>
                 </div>
-                <div class="input-container ic2">
-                    <input placeholder="" type="date" class="input" id="user_date_of_birth">
-                    <div class="cut"></div>
-                    <label class="iLabel hide_iLabel" for="user_date_of_birth">Date of birth</label>
-                </div>
-                <div class="input-container ic2">
-                    <input placeholder="" type="text" class="input" id="user_description">
-                    <div class="cut"></div>
-                    <label class="iLabel" for="user_description">About yourself</label>
-                </div>
+
+<!--                <div class="input-container ic2">-->
+<!--                    <input placeholder="" type="text" name="real_name" class="input" id="user_real_name">-->
+<!--                    <div class="cut"></div>-->
+<!--                    <label class="iLabel" for="user_real_name">Real name</label>-->
+<!--                </div>-->
+<!--                <div class="input-container ic2">-->
+<!--                    <input placeholder="" type="date" name="date_of_birth" class="input" id="user_date_of_birth">-->
+<!--                    <div class="cut"></div>-->
+<!--                    <label class="iLabel hide_iLabel" for="user_date_of_birth">Date of birth</label>-->
+<!--                </div>-->
+<!--                <div class="input-container ic2">-->
+<!--                    <input placeholder="" type="text" name="description" class="input" id="user_description">-->
+<!--                    <div class="cut"></div>-->
+<!--                    <label class="iLabel" for="user_description">About yourself</label>-->
+<!--                </div>-->
+
+
                 <button class="submit" type="text">Join the journey</button>
             </div>
+            </form>
         </div>
 
 
@@ -75,24 +91,4 @@
     </div>
 </div>
 
-<script>
-    let login = document.querySelector("#login");
-    let register = document.querySelector("#register");
-    let form_box = document.querySelector(".form-box");
-    let register_box = document.querySelector(".register-box");
-    let login_box = document.querySelector(".login-box");
-
-    register.addEventListener('click', () => {
-        form_box.style.transform = 'translateX(80%)';
-        login_box.classList.add('hidden');
-        register_box.classList.remove('hidden');
-    })
-
-    login.addEventListener('click', () => {
-        form_box.style.transform = 'translateX(0%)';
-        register_box.classList.add('hidden');
-        login_box.classList.remove('hidden');
-    })
-
-
-</script>
+<script src="./controllers/loginController.js"></script>

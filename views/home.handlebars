@@ -1,43 +1,98 @@
-<div class="blog grid_2{{#if user}} grid_3{{/if}}">
 
-    <div class="sort-area">
-        <p>Sort by</p>
-        <button onclick="sort('title')">Title</button>
-        <button onclick="sort('date')">Date</button>
-        <button onclick="sort('author_name')">Author name</button>
-    </div>
 
-    <div class="articles">
-        {{#if articles}}
-            <div class="showArticles">
-                {{#each articles as |article|}}
-                    <div class="article">
-                        <h2>{{article.title}}</h2>
-                        <p>{{article.content}}</p>
-                        <p>By: {{article.author_name}}</p>
-                        <p>like:{{article.like}}</p>
-                        <p>{{article.date}}</p>
+<div class="blog {{#if user}}grid_3{{else}} grid_2{{/if}}">
+    {{#if user}}  <div class="public_content">{{/if}}
 
-                    </div>
-                {{/each}}
-            </div>
-        {{else}}
-            <p>No articles yet</p>
-        {{/if}}
-    </div>
 
-    <div class="{{#if user}}public_content{{/if}}">
-        <div class="blog_sort1"></div>
-    </div>
+        <div class="sort-area">
+            <p>Sort by:</p>
+            <button onclick="sortArticles('title')">Title</button>
+            <button onclick="sortArticles('date')">Date</button>
+            <button onclick="sortArticles('author_name')">Author name</button>
+        </div>
+
+        <div class="articles">
+            {{#if articles}}
+                <div class="showArticles">
+                    {{#each articles as |article|}}
+                        <div class="article">
+                            <h2 class="click" onclick="toggleContent(this)">{{article.title}}</h2>
+                            <p class="article_content hidden" >{{article.content}}</p>
+                            <p>By: {{article.author_name}}</p>
+                            <button class="heart_btn"><img class="heart" src="./image/heart.jpg"></button>
+                            <span> × {{article.likes}}</span>
+                            <!--                        <p>like:{{article.like}}</p>-->
+                            <p>{{article.date}}</p>
+
+                        </div>
+                    {{/each}}
+                </div>
+            {{else}}
+                <p>No articles yet</p>
+            {{/if}}
+        </div>
+    {{#if user}}</div>{{/if}}
+
+
 
     {{#if user}}
-        <div class="user_profile"></div>
+
+        <div class="user_profile">
+
+            <div class="user_avatar">
+        {{#if user.avatar}}
+            <img src="./avatar/{{user.avatar}}.jpg">
+        {{else}}
+                <img src="./image/avatar_profile.jpg">
+        {{/if}}
+            </div>
+
+            {{#if user.real_name}}
+                <p><strong>Real name</strong>: {{user.real_name}}</p>
+            {{/if}}
+
+            <p><strong>Username</strong>: {{user.userName}}</p>
+
+            {{#if user.date_of_birth}}
+                <p><strong>Date of birth</strong>: {{user.date_of_birth}}</p>
+            {{/if}}
+
+            {{#if user.description}}
+                <p><strong>About me</strong>: <br>{{user.description}}</p>
+            {{/if}}
+
+
+        </div>
 
         <div class="user_content">
-            <div class="writer"></div>
-            <div class="blog_sort2"></div>
-            <div class="user_articles"></div>
-        </div>
-    {{/if}}
+            <div class="writer"><textarea id="myeditor"></textarea></div>
 
+
+            <div class="blog_sort2"></div>
+
+            <h2>Blogosphere of <em>{{user.userName}}</em></h2>
+            {{#if user_articles}}
+
+                <div class="user_articles">
+                    {{#each user_articles as |article|}}
+                        <div class="article">
+                            <h2 class="click" onclick="toggleContent(this)">{{article.title}}</h2>
+                            <p class="article_content hidden">{{article.content}}</p>
+
+                            <button class="heart_btn"><img class="heart" src="./image/heart.jpg"></button>
+                            <span> × {{article.likes}}</span>
+                            <p>{{article.date}}</p>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/if}}
+        </div>
+
+    {{/if}}
 </div>
+
+<script src="https://cdn.tiny.cloud/1/63y2dc6cqm923nybkho0h8xv1swcz2ndtei7di45ujnu2rte/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+
+<script src="./controllers/articleController.js"></script>
+
