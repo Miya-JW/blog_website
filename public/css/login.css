@@ -171,8 +171,6 @@
 }
 
 
-
-
 .input:focus ~ .cut,
 .input:not(:placeholder-shown) ~ .cut {
     transform: translateY(8px);
@@ -216,6 +214,12 @@
     background-color: #06b;
 }
 
+.submit:disabled {
+    cursor: not-allowed;
+    background-color: lightgrey;
+    color: var(--btn-color);
+}
+
 .con-box button {
     margin-top: 3%;
     background-color: var(--btn-color);
@@ -247,20 +251,26 @@
     transition: 0.5s;
 }
 
-#avatar_icon{
+#avatar_icon {
     width: 15px;
     margin-left: 15px;
     margin-right: 15px;
 }
 
-#avatarButton{
+#avatarButton {
     padding-right: 30px;
     margin: 0;
 
 }
 
-.message{
+.message {
     color: var(--active-color);
 }
 
-
+#username_error, #password_error {
+    color: var(--active-color);
+    margin-top: -20px;
+    padding-left: 120px;
+    font-weight: bolder;
+    font-size: small;
+}

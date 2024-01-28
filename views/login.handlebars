@@ -28,6 +28,7 @@
                 <button class="submit" type="text">Journey Begins</button>
             </div>
             </form>
+
             <!--register---------------------------->
             <form class="form" action="./newAccount" method="post" autocomplete="off">
             <div class="register-box hidden ">
@@ -36,20 +37,23 @@
                 <p class="message">{{message}}</p>
 
                 <div class="input-container ic1">
-                    <input placeholder="" type="text" name="userName" class="input" id="user_username" required>
+                    <input placeholder="" type="text" name="userName" class="input" id="user_username" required onblur="checkUsername()">
                     <div class="cut"></div>
                     <label class="iLabel" for="user_username">Username</label>
+                    <div id="username_error" ></div>
                 </div>
                 <div class="input-container ic2">
                     <input placeholder="" type="password" name="password" class="input" id="user_password" required>
                     <div class="cut"></div>
                     <label class="iLabel" for="user_password">Password</label>
+
                 </div>
 
                 <div class="input-container ic2">
-                    <input placeholder="" type="password" name="password_repeat" class="input" id="user_password_repeat" required>
+                    <input placeholder="" type="password" name="password_repeat" class="input" id="user_password_repeat" required onkeyup="checkPassword()">
                     <div class="cut"></div>
                     <label class="iLabel" for="user_password">Password</label>
+                    <div id="password_error" ></div>
                 </div>
 
 <!--                <div class="input-container ic2">-->
@@ -69,7 +73,7 @@
 <!--                </div>-->
 
 
-                <button class="submit" type="text">Join the journey</button>
+                <button class="submit" id="submit_button" type="text" disabled>Join the journey</button>
             </div>
             </form>
         </div>

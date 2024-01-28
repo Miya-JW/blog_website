@@ -39,3 +39,46 @@ function showRegisterForm() {
     login_box.classList.add('hidden');
     register_box.classList.remove('hidden');
 }
+
+function checkUsername() {
+    let username = document.querySelector("#user_username").value;
+    fetch('/check-username?username=' + username)
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                document.querySelector("#username_error").textContent = "Username already taken.";
+            } else {
+                document.querySelector("#username_error").textContent = "";
+            }
+        });
+    updateSubmitButtonState();
+}
+
+function checkPassword() {
+    let password = document.querySelector("#user_password").value;
+    let confirmPassword = document.querySelector("#user_password_repeat").value;
+    if (password != confirmPassword) {
+        document.querySelector("#password_error").textContent = "Passwords do not match.";
+    } else {
+        document.querySelector("#password_error").textContent = "";
+    }
+    updateSubmitButtonState();
+}
+
+
+function updateSubmitButtonState() {
+    let username = document.querySelector("#user_username").value;
+    let password = document.querySelector("#user_password").value;
+    let confirmPassword = document.querySelector("#user_password_repeat").value;
+
+    let usernameError = document.querySelector("#username_error").textContent;
+    let passwordError = document.querySelector("#password_error").textContent;
+
+    let isUsernameValid = !usernameError && username;
+    let isPasswordValid = !passwordError && password && confirmPassword && (password === confirmPassword);
+
+    document.querySelector("#submit_button").disabled = !(isUsernameValid && isPasswordValid);
+}
+
+
+

@@ -38,6 +38,12 @@ async function updateUser(user) {
 async function deleteUser(id) {
 }
 
+async function checkUserExists(username){
+    const db=await database;
+    const result = await db.query("select * from users where userName=?",[username]);
+    return result.length>0;
+}
+
 // Export functions.
 module.exports = {
     createUser,
@@ -45,5 +51,6 @@ module.exports = {
     retrieveUserWithCredentials,
     retrieveAllUsers,
     updateUser,
-    deleteUser
+    deleteUser,
+    checkUserExists
 };

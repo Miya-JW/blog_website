@@ -75,5 +75,12 @@ router.post("/newAccount", function (req, res) {
    }
 })
 
+router.get('/check-username', async (req, res) => {
+    const username = req.query.username;
+    const userExists = await userDao.checkUserExists(username);
+    res.json({ exists: userExists });
+});
+
+
 
 module.exports = router;
