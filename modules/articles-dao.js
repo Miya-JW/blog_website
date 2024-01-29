@@ -13,15 +13,15 @@ async function retrieveArticle(authorId,articleId){}
 
 async function deleteArticle(authorId,articleId){}
 
-async function retrieveAllArticlesById(username){
+async function retrieveAllArticlesById(user_id){
     const db = await database;
-    const result= await db.query("select * from articles where author_name=? ORDER BY date DESC",[username]);
+    const result= await db.query("select * from articles where author_id=? ORDER BY date DESC",[user_id]);
     return result;
 }
 
 async function retrieveAllArticles(){
     const db = await database;
-    const result = await db.query("select * from articles ");
+    const result = await db.query("select articles.*,users.username as author_name from articles join users on articles.author_id =users.user_id");
     return result;
 
 }

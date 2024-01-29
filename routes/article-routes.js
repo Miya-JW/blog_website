@@ -13,9 +13,8 @@ router.get('/', async (req, res) => {
         const articles = await articlesDao.retrieveAllArticles();
         let user_articles = [];
         if (req.session && req.session.user) {
-            user_articles = await articlesDao.retrieveAllArticlesById(req.session.user.userName);
+            user_articles = await articlesDao.retrieveAllArticlesById(req.session.user.user_id);
         }
-         console.log(user_articles);
         res.render("home", { articles: articles, user_articles: user_articles });
 
     } catch (error) {

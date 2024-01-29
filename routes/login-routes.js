@@ -54,7 +54,7 @@ router.get("/logout", function (req, res) {
 
 router.get("/newAccount", function (req, res) {
     res.locals.message = req.query.message;
-    res.render("new-account");
+    res.render("profile");
 })
 router.post("/newAccount", function (req, res) {
    const password=req.body.password;
@@ -66,7 +66,7 @@ router.post("/newAccount", function (req, res) {
        }
        req.session.user = user;
        userDao.createUser(user).then(r =>
-           res.redirect("./login")).catch(err => {
+           res.redirect("./profile")).catch(err => {
            console.error(err);
            res.redirect("./login?show=register&message=Error creating account.");
        })
