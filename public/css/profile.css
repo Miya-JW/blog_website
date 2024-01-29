@@ -1,0 +1,150 @@
+.profile_container {
+    position: relative;
+    background-color: #fff;
+    padding: 50px;
+    margin: 50px 100px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    grid-gap: 50px;
+    grid-template-rows: repeat(2, auto);
+    grid-template-columns: 1fr 4fr;
+    grid-template-areas:
+          "avatar modify_area"
+    "delete_btn done_btn";
+}
+
+.profile-title {
+    margin-top: -150px;
+    padding-bottom: 30px;
+}
+
+
+.modify_area {
+    background-color: #15172b;
+    border-radius: 5px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 1);
+    padding: 20px;
+    padding-top: 50px;
+    position: relative;
+    grid-area: modify_area;
+    display: grid;
+    grid-gap: 50px;
+    grid-template-rows: repeat(5, auto);
+    grid-template-columns:  4fr 1fr;
+    grid-template-areas:
+                " userName btn1"
+        " password btn2"
+        " real_name btn3"
+        " date_of_birth btn4"
+        " description btn5";
+}
+
+.profile_container img {
+    width: 250px;
+    margin-bottom: 10px;
+}
+
+.cut1 {
+    background-color: #15172b;
+    border-radius: 10px;
+    height: 30px;
+    left: 20px;
+    position: absolute;
+    top: -15px;
+    width: 150px;
+    justify-content: center;
+    text-align: center;
+}
+
+.iLabel1 {
+    position: absolute;
+    color: var(--background-color-6);
+    left: 30px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    top: -10px;
+}
+
+#avatar {
+    grid-area: avatar;
+    display: flex;
+    flex-direction: column;
+}
+
+#userName, #password, #real_name, #date_of_birth, #description {
+    display: flex;
+    position: relative;
+}
+
+#modify_userName, #modify_date_of_birth, #modify_password, #modify_real_name, #modify_description, #done_btn, #delete_btn {
+    display: flex;
+    justify-content: center;
+}
+
+#userName {
+    grid-area: userName;
+}
+
+#modify_userName {
+    grid-area: btn1;
+}
+
+#password {
+    grid-area: password;
+}
+
+#modify_password {
+    grid-area: btn2;
+}
+
+#real_name {
+    grid-area: real_name;
+}
+
+#modify_real_name {
+    grid-area: btn3;
+}
+
+#date_of_birth {
+    grid-area: date_of_birth;
+}
+
+#modify_date_of_birth {
+    grid-area: btn4;
+}
+
+#description {
+    grid-area: description;
+}
+
+#modify_description {
+    grid-area: btn5;
+}
+
+#delete_btn {
+    grid-area: delete_btn;
+}
+
+#done_btn {
+    grid-area: done_btn;
+}
+
+.profile_container label {
+    margin-right: 8px;
+}
+
+.profile_container input {
+    height: 50px;
+}
+
+#description-input {
+    padding-top: 25px;
+    font-size: inherit;
+    font-style: italic;
+    height: 120px;
+}

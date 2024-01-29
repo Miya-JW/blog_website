@@ -1,0 +1,101 @@
+/*----------------------------------------head btn--------------------------------------*/
+.headBtn {
+    position: absolute;
+    right: 50%;
+    bottom: 10%;
+    color: #eee;
+    background-color: var(--background-color-1);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: large;
+    border: none;
+    border-color: var(--background-color);
+}
+
+
+.headBtn:hover {
+    background-color: #eee;
+    color: var(--background-color-1);
+    transition: background-color 0.5s ease;
+}
+
+
+/*---------------------------------------------nav btn---------------------------------------*/
+.nav_btn, .headBtn, a {
+    /*margin-left: 20px;*/
+    background-color: var(--background-color-1);
+    color: #eee;
+    letter-spacing: 1px;
+    font-size: large;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 15px;
+}
+
+.nav_btn:hover {
+    background-color: lightgrey;
+    color: var(--background-color-1);
+    transition: background-color 0.5s ease;
+}
+
+/*-------------------------------------------------<a>--------------------------*/
+a:hover {
+    background-color: lightgrey;
+    color: var(--background-color-1);
+    transition: background-color 0.5s ease;
+}
+
+/*------------------------------------------heart & comment---------------------------------*/
+.heart, .comment {
+    width: 30px;
+}
+
+.heart_btn, .comment_btn {
+    border: none;
+    background-color: var(--background-color-6);
+    cursor: pointer;
+}
+
+/*----------------------------------------------login & profile---------------------------------*/
+.con-box button, .profile_container button {
+    margin-top: 3%;
+    background-color: var(--btn-color);
+    color: #eee;
+    letter-spacing: 1px;
+    font-size: large;
+    border-radius: 10px;
+    border: 0 solid lightgrey;
+    outline: none;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+.con-box button:hover, .form-box button:hover, .profile_container button:hover {
+    background-color: lightgrey;
+    color: var(--btn-color);
+    transition: background-color 0.5s ease;
+}
+
+
+.profile_container button {
+    width: 100px;
+    height: 35px;
+    align-self: center;
+    border-radius: 3px;
+}
+
+#delete_btn {
+    width: 200px;
+    background-color: #fff;
+}
+
+
+#delete_btn:hover {
+    background-color: var(--active-color);
+    color: var(--background-color-6);
+    transition: background-color 0.5s ease;
+}
+
+

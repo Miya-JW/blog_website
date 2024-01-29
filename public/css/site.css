@@ -1,5 +1,8 @@
-@import url("./utils.css");
 @import url("./login.css");
+@import url("./button.css");
+@import url("./effects.css");
+
+@import url("./profile.css");
 
 
 :root {
@@ -28,7 +31,6 @@
     color: var(--font-color);
     line-height: 23px;
 }
-
 
 
 body {
@@ -64,35 +66,6 @@ hr {
     right: 10px;
 }
 
-.nav_btn, .headBtn, a {
-    /*margin-left: 20px;*/
-    background-color: var(--background-color-1);
-    color: #eee;
-    letter-spacing: 1px;
-    font-size: large;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 5px 15px;
-}
-
-/*.nav_btn{*/
-/*    position: absolute;*/
-/*    top:5px;*/
-/*    right:10px;*/
-/*}*/
-.nav_btn:hover {
-    background-color: lightgrey;
-    color: var(--background-color-1);
-    transition: background-color 0.5s ease;
-}
-
-a:hover {
-    background-color: lightgrey;
-    color: var(--background-color-1);
-    transition: background-color 0.5s ease;
-}
 
 /*head*/
 /*------------------------------------------------------------------*/
@@ -115,25 +88,6 @@ div.head {
     border: 1px solid black;
 }
 
-.headBtn {
-    position: absolute;
-    right: 50%;
-    bottom: 10%;
-    color: #eee;
-    background-color: var(--background-color-1);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: large;
-    border: none;
-    border-color: var(--background-color);
-}
-
-
-.headBtn:hover {
-    background-color: #eee;
-    color: var(--background-color-1);
-    transition: background-color 0.5s ease;
-}
 
 /*------------------------------------------------------------------*/
 div.blog {
@@ -159,7 +113,7 @@ div.blog {
     grid-area: blog_sort;
 }
 
-.sort-area button{
+.sort-area button {
     margin: 2px;
     border: none;
     padding: 2px 5px;
@@ -183,22 +137,13 @@ div.blog {
     margin-top: 20px;
 }
 
-.article{
+.article {
     background-color: var(--background-color-6);
     padding: 30px;
     border-radius: 10px;
     margin-bottom: 30px;
 }
 
-.heart,.comment{
-    width: 30px;
-}
-
-.heart_btn,.comment_btn{
-    border: none;
-    background-color: var(--background-color-6);
-    cursor: pointer;
-}
 
 /*Grid*/
 /*------------------------------------------------------------------*/
@@ -215,7 +160,7 @@ div.blog {
 
 }
 
-.user_avatar img{
+.user_avatar img {
     width: 180px;
     border-radius: 50%;
 
@@ -257,19 +202,4 @@ div.blog {
     flex-direction: column;
 }
 
-.hide {
-    display: none;
-}
 
-.click{
-    cursor: pointer;
-    border-bottom: 1px solid var(--background-color-5);
-    width: fit-content;
-    padding-bottom: 5px;
-}
-
-
-.small_font{
-    font-size: x-small;
-    margin-top: -20px;
-}

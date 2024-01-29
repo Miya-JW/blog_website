@@ -1,0 +1,53 @@
+<div class="profile_container">
+
+
+    <div id="avatar">
+        <h2 class="profile-title">Profile Renovation!</h2>
+        <img src="./avatar/{{user.avatar}}.jpg">
+        <button id="modify_avatar">Modify</button>
+    </div>
+    <div class="modify_area">
+        <div id="userName">
+            <div class="cut1"></div>
+            <label class="iLabel1" for="userName"> Username: </label>
+            <input name="userName" type="text" value="{{user.userName}}">
+
+        </div>
+        <button id="modify_userName" onclick="editField('userName')">Modify</button>
+
+        <div id="password">
+            <div class="cut1"></div>
+            <label class="iLabel1" for="password">Password: </label>
+            <input name="password" type="password" value="{{#if user.password}}******{{/if}}">
+        </div>
+        <button id="modify_password" onclick="editField('password')">Modify</button>
+
+        <div id="real_name">
+            <div class="cut1"></div>
+            <label class="iLabel1" for="real_name">Real name: </label>
+            <input name="real_name" type="text" value="{{user.real_name}}">
+        </div>
+        <button id="modify_real_name" onclick="editField('real_name')">Modify</button>
+
+        <div id="date_of_birth">
+            <div class="cut1"></div>
+            <label class="iLabel1" for="date_of_birth">Date of birth: </label>
+            <input name="date_of_birth" type="text" value="{{user.date_of_birth}}">
+        </div>
+        <button id="modify_date_of_birth" onclick="editField('date_of_birth')">Modify</button>
+
+        <div id="description">
+            <div class="cut1"></div>
+            <label class="iLabel1" for="description">About me: </label>
+            <!--        <input id="description-input" name="description" type="text" value="{{user.description}}">-->
+            <textarea id="description-input" name="description" type="text">{{user.description}}</textarea>
+        </div>
+        <button id="modify_description" onclick="editField('description')">Modify</button>
+    </div>
+
+
+    <button id="done_btn">Done</button>
+    <button id="delete_btn">Delete account</button>
+
+
+</div>

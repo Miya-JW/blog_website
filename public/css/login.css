@@ -3,7 +3,6 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-
 }
 
 .container-log-reg {
@@ -43,7 +42,6 @@
 }
 
 .con-box img {
-
     height: 220px;
     opacity: 0.9;
     margin: 40px 0;
@@ -79,27 +77,6 @@
     width: 320px;
 }
 
-/*.login-box .register-box {*/
-/*    background-color: #15172b;*/
-/*    border-radius: 20px;*/
-/*    box-sizing: border-box;*/
-/*    height: 500px;*/
-/*    padding: 20px;*/
-/*    width: 320px;*/
-
-/*}*/
-
-/*.register-box {*/
-/*    background-color: #15172b;*/
-/*    border-radius: 20px;*/
-/*    box-sizing: border-box;*/
-/*    height: 550px;*/
-/*    padding: 5px 20px 30px 20px;*/
-/*    width: 320px;*/
-
-/*}*/
-
-
 .title {
     color: #eee;
     font-size: 36px;
@@ -128,7 +105,7 @@
     margin-top: 25px;
 }
 
-.input {
+.input, .profile_container input ,.profile_container textarea{
     background-color: #303245;
     border-radius: 12px;
     border: 0;
@@ -155,9 +132,6 @@
     text-align: center;
 }
 
-.hide_iLabel {
-    display: none;
-}
 
 .iLabel {
     color: #65657b;
@@ -170,31 +144,6 @@
     top: 20px;
 }
 
-
-.input:focus ~ .cut,
-.input:not(:placeholder-shown) ~ .cut {
-    transform: translateY(8px);
-}
-
-
-.input:focus ~ .iLabel,
-.input:not(:placeholder-shown) ~ .iLabel {
-    display: flex;
-    transform: translateY(-30px) translateX(10px) scale(0.75);
-    color: lightgrey;
-}
-
-
-.input:focus {
-    color: var(--btn-color);
-    outline: none;
-    border: 1px solid lightgrey;
-    transition: 0.5s;
-}
-
-.input:not(focus) ~ .iLabel {
-    color: #808097;
-}
 
 .submit {
     background-color: var(--btn-color);
@@ -210,67 +159,6 @@
     width: 100%;
 }
 
-.submit:active {
-    background-color: #06b;
-}
-
-.submit:disabled {
-    cursor: not-allowed;
-    background-color: lightgrey;
-    color: var(--btn-color);
-}
-
-.con-box button {
-    margin-top: 3%;
-    background-color: var(--btn-color);
-    color: #eee;
-    letter-spacing: 1px;
-    font-size: large;
-    border-radius: 10px;
-    border: 0 solid lightgrey;
-    outline: none;
-    cursor: pointer;
-    padding: 5px 20px;
-}
-
-.con-box button:hover {
-    background-color: lightgrey;
-    color: var(--btn-color);
-    transition: background-color 0.5s ease;
-}
-
-.form-box button:hover {
-    background-color: lightgrey;
-    color: var(--btn-color);
-    transition: background-color 0.5s ease;
-}
 
 
-.hidden {
-    display: none;
-    transition: 0.5s;
-}
 
-#avatar_icon {
-    width: 15px;
-    margin-left: 15px;
-    margin-right: 15px;
-}
-
-#avatarButton {
-    padding-right: 30px;
-    margin: 0;
-
-}
-
-.message {
-    color: var(--active-color);
-}
-
-#username_error, #password_error {
-    color: var(--active-color);
-    margin-top: -20px;
-    padding-left: 120px;
-    font-weight: bolder;
-    font-size: small;
-}
