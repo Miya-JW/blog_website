@@ -1,48 +1,80 @@
 <div class="profile_container">
 
 
-    <div id="avatar">
+    <div id="avatar_div">
         <h2 class="profile-title">Profile Renovation!</h2>
-        <img src="./avatar/{{user.avatar}}.jpg">
-        <button id="modify_avatar">Modify</button>
+        <img src="{{#if user}}./avatar/{{user.avatar}}.jpg{{else}}./image/avatar_profile.jpg{{/if}}" id="change_avatar">
+        <button id="modify_avatar" onclick="showAvatarModal()">Modify<span id="success_avatar" class="success-indicator"></span></button>
+
+        <!-- avatar window ------------------- -->
+        <div id="avatarModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="avatar-gallery">
+                    <img src="./avatar/avatar01.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar02.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar03.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar04.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar05.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar06.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar07.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar08.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar09.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar10.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar11.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar12.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar13.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar14.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar15.jpg" onclick="editField(event, 'avatar')">
+                    <img src="./avatar/avatar16.jpg" onclick="editField(event, 'avatar')">
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="modify_area">
-        <div id="userName">
+        <div id="userName_div">
             <div class="cut1"></div>
             <label class="iLabel1" for="userName"> Username: </label>
-            <input name="userName" type="text" value="{{user.userName}}">
-
+            <input name="userName" type="text" value="{{user.userName}}" id="userName">
+            <div id="modify_username_error" ></div>
         </div>
-        <button id="modify_userName" onclick="editField('userName')">Modify</button>
+        <button id="modify_userName" onclick="editField(event, 'userName')">Modify<span id="success_userName" class="success-indicator"></span></button>
 
-        <div id="password">
+
+        <div id="password_div">
             <div class="cut1"></div>
             <label class="iLabel1" for="password">Password: </label>
-            <input name="password" type="password" value="{{#if user.password}}******{{/if}}">
+            <input name="password" type="password" value="{{#if user.password}}******{{/if}}" id="password">
+            <div id="modify_password_error" ></div>
         </div>
-        <button id="modify_password" onclick="editField('password')">Modify</button>
+        <button id="modify_password" onclick="editField(event,'password')">Modify   <span id="success_password" class="success-indicator"></span></button>
 
-        <div id="real_name">
+
+        <div id="real_name_div">
             <div class="cut1"></div>
             <label class="iLabel1" for="real_name">Real name: </label>
-            <input name="real_name" type="text" value="{{user.real_name}}">
+            <input name="real_name" type="text" value="{{user.real_name}}"id="real_name">
         </div>
-        <button id="modify_real_name" onclick="editField('real_name')">Modify</button>
+        <button id="modify_real_name" onclick="editField(event,'real_name')">Modify <span id="success_real_name" class="success-indicator"></span></button>
 
-        <div id="date_of_birth">
+
+        <div id="date_of_birth_div">
             <div class="cut1"></div>
             <label class="iLabel1" for="date_of_birth">Date of birth: </label>
-            <input name="date_of_birth" type="text" value="{{user.date_of_birth}}">
+            <input name="date_of_birth" type="text" value="{{user.date_of_birth}}" id="date_of_birth">
         </div>
-        <button id="modify_date_of_birth" onclick="editField('date_of_birth')">Modify</button>
+        <button id="modify_date_of_birth" onclick="editField(event,'date_of_birth')">Modify <span id="success_date_of_birth" class="success-indicator"></span></button>
 
-        <div id="description">
+
+        <div id="description_div">
             <div class="cut1"></div>
             <label class="iLabel1" for="description">About me: </label>
             <!--        <input id="description-input" name="description" type="text" value="{{user.description}}">-->
-            <textarea id="description-input" name="description" type="text">{{user.description}}</textarea>
+            <textarea  name="description" type="text" aria-inval id="description">{{user.description}}</textarea>
         </div>
-        <button id="modify_description" onclick="editField('description')">Modify</button>
+        <button id="modify_description" onclick="editField(event,'description')">Modify<span id="success_description" class="success-indicator"></span></button>
+
     </div>
 
 
@@ -51,3 +83,5 @@
 
 
 </div>
+
+<script src="./controllers/profileController.js"></script>
