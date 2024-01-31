@@ -34,13 +34,39 @@ async function retrieveUserWithCredentials(username, password) {
     return user;
 }
 
-async function retrieveAllUsers() {
+async function verifyUserPassword(user_id,password){
+    const db = await database;
+    const rows = await db.query('select password from users where user_id = ?', [user_id]);
+    const hash = rows[0].password;
+    let user;
+    const match = await bcrypt.compare(password, hash);
+    return match;
+
 }
 
-async function updateUser(user) {
-}
 
-async function deleteUser(id) {
+
+async function deleteUser(user_id) {
+    console.log(`user_id:${user_id}`);
+    const db=await database;
+    const articles = await db.query('select * from articles where author_id=?',[user_id]);
+    console.log(`articles:${articles}`);
+    for (const article of articles) {
+     const articleId=article.articleId;
+     console.log(`articleID:${articleId}`);
+     await db.query('DELETE FROM comments WHERE commenter_id = ?',[user_id]);
+     await db.query('DELETE FROM comments WHERE articleId = ?',[articleId]);
+     await db.query('DELETE FROM likes WHERE articleId = ?',[articleId]);
+     await db.query('DELETE FROM likes WHERE user_id = ?',[user_id]);
+     await db.query('DELETE FROM articles WHERE author_id = ?',[user_id]);
+     await db.query('DELETE FROM users WHERE user_id = ?',[user_id]);
+    return true;
+    }
+
+
+
+
+
 }
 
 async function checkUserExists(username){
@@ -55,6 +81,9 @@ async function updateUserProfile(user_id, field, value) {
         throw new Error('Invalid field name');
     }
     const db = await database;
+    if (field==='password'){
+        value=await bcrypt.hash(value, saltRounds);
+    }
     await db.query(`update users set ${field} = ? where user_id = ?`,[value,user_id]);
     const newUser = await db.query("select * from users where user_id=?",[user_id]);
     return newUser[0];
@@ -64,10 +93,10 @@ async function updateUserProfile(user_id, field, value) {
 // Export functions.
 module.exports = {
     createUser,
-    retrieveUserById: retrieveUserIdByUsername,
+    retrieveUserIdByUsername,
+    verifyUserPassword,
     retrieveUserWithCredentials,
-    retrieveAllUsers,
-    updateUser,
+    updateUserProfile,
     deleteUser,
     checkUserExists,
     updateUserProfile

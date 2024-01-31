@@ -16,14 +16,14 @@ create table if not exists users
 );
 
 insert into users(user_id, userName, password, real_name, date_of_birth, description, avatar)
-VALUES (8001, 'batman', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Bruce Wayne', '19-02-1985',
+VALUES (8001, 'batman', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Bruce Wayne', '1985-02-19',
         ' I am Batman, the Dark Knight of Gotham. Behind the mask is Bruce Wayne, a businessman by day, but by night, I stand as a symbol of justice, fighting against the corruption and crime that plague my city.',
         'avatar15'),
        (8002, 'captain_america', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Steve Rogers',
-        '04-07-1918',
+        '1918-07-04',
         'Hello, I''m Steve Rogers, also known as Captain America. I was just a kid from Brooklyn until I joined the army during World War II and was chosen for the Super Soldier program. Now, I fight to protect the innocent and uphold justice, always standing for freedom and the American way.',
         'avatar14'),
-       (8003, 'iron_man', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Tony Stark', '29-05-1985',
+       (8003, 'iron_man', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Tony Stark', '1985-05-29',
         'Hi, I''m Tony Stark, better known to the world as Iron Man. You might also know me as the genius billionaire inventor who''s leading Stark Industries. I don''t just play with cutting-edge technology; I create it. When I''m not running my company or tinkering with a new piece of tech, I''m suited up in one of my Iron Man armors, fighting to protect the world from threats of any size.',
         'avatar13');
 
@@ -34,6 +34,7 @@ create table if not exists articles
     title     varchar(100) not null,
     date      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content   text         not null,
+    image varchar(50),
     likes     int,
     author_id int          not null,
     foreign key (author_id) references users (user_id)

@@ -43,12 +43,32 @@
 
 
         <div id="password_div">
-            <div class="cut1"></div>
-            <label class="iLabel1" for="password">Password: </label>
-            <input name="password" type="password" value="{{#if user.password}}******{{/if}}" id="password">
-            <div id="modify_password_error" ></div>
+            <div class="password_div">
+                <div class="cut1"></div>
+                <label class="iLabel1" for="password">Password: </label>
+                <input name="password" type="password" value="{{#if user.password}}******{{/if}}" id="password">
+                <div id="verify_password_error" ></div>
+            </div>
+
+            <div class="password_div" id="newPasswordDiv" style="display:none;">
+                <div class="cut1"></div>
+                <label class="iLabel1" for="password">New Password: </label>
+                <input name="newPassword" type="password" value="" id="newPassword">
+            </div>
+
+            <div class="password_div" id="newPasswordConfirmDiv" style="display:none;">
+                <div class="cut1"></div>
+                <label class="iLabel1" for="password">Confirm: </label>
+                <input name="newPasswordConfirm" type="password" value="" id="newPasswordConfirm">
+                <div id="modify_password_error" ></div>
+            </div>
+
         </div>
-        <button id="modify_password" onclick="editField(event,'password')">Modify   <span id="success_password" class="success-indicator"></span></button>
+        <div id="modify_password">
+            <button id="modify_btn"  onclick="modifyPassword(event,'password')">Modify </button>
+            <button id="confirm_btn" style="display:none;" onclick="editField(event,'password')">Confirm   <span id="success_password" class="success-indicator"></span></button>
+        </div>
+
 
 
         <div id="real_name_div">
@@ -62,7 +82,7 @@
         <div id="date_of_birth_div">
             <div class="cut1"></div>
             <label class="iLabel1" for="date_of_birth">Date of birth: </label>
-            <input name="date_of_birth" type="text" value="{{user.date_of_birth}}" id="date_of_birth">
+            <input name="date_of_birth" type="text" value="{{user.date_of_birth}}" id="date_of_birth" onclick="changeTypeToDate(this)">
         </div>
         <button id="modify_date_of_birth" onclick="editField(event,'date_of_birth')">Modify <span id="success_date_of_birth" class="success-indicator"></span></button>
 
@@ -70,16 +90,15 @@
         <div id="description_div">
             <div class="cut1"></div>
             <label class="iLabel1" for="description">About me: </label>
-            <!--        <input id="description-input" name="description" type="text" value="{{user.description}}">-->
-            <textarea  name="description" type="text" aria-inval id="description">{{user.description}}</textarea>
+            <textarea  name="description" type="text"  id="description">{{user.description}}</textarea>
         </div>
         <button id="modify_description" onclick="editField(event,'description')">Modify<span id="success_description" class="success-indicator"></span></button>
 
     </div>
 
 
-    <button id="done_btn">Done</button>
-    <button id="delete_btn">Delete account</button>
+    <button id="done_btn" >Done</button>
+    <button id="delete_btn" onclick="deleteAccount(event,{{user.user_id}})">Delete account</button>
 
 
 </div>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Website - Miya</title>
+    <link rel="stylesheet" href="./css/site.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <div class="nav">
+        <a class="nav_btn" href="./">Home</a>
+        <a class="nav_btn" href="./profile">Profile</a>
+        {{#if user}}
+            <a class="nav_btn" href="./logout">Log out</a>
+        {{else}}
+            <a class="nav_btn" href="./login">Log in</a>
+        {{/if}}
+    </div>
+    <div class="head">
+
+        <img src="./image/head.png" alt="headPicture" class="headImage">
+        <!--        <button class="headBtn{{#if user}}, hide{{/if}}">Now</button>-->
+        <a class="headBtn{{#if user}}, hide{{/if}}" href="./login">Now</a>
+    </div>
+
+    {{{body}}}
+</div>
+</body>
+
+</html>
