@@ -36,6 +36,7 @@ create table if not exists articles
     content   text         not null,
     image varchar(50),
     likes     int,
+    comments int,
     author_id int          not null,
     foreign key (author_id) references users (user_id)
 );
@@ -86,16 +87,19 @@ create table if not exists comments
     content      varchar(255) not null,
     articleId    int          not null,
     commenter_id int          not null,
+    comment_comment_id int ,
+    foreign key (comment_comment_id) references comments(commentId),
     foreign key (articleId) references articles (articleId),
     foreign key (commenter_id) references users (user_id)
 );
 
-insert into comments(commentId, date, content, articleId, commenter_id)
-VALUES (2001, default, 'Why can''t you give a secret to a pig? Because it might squeal.', 1001, 8003),
-       (2002, default, 'I have a joke about construction, but I''m still working on it.', 1002, 8003),
-       (2003, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1003, 8001),
+insert into comments(commentId, date, content, articleId,commenter_id)
+VALUES (2001, default, 'Why can''t you give a secret to a pig? Because it might squeal.', 1001,8003),
+       (2002, default, 'I have a joke about construction, but I''m still working on it.', 1002,8003),
+       (2003, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8001),
        (2004, default, 'Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002);
 
+UPDATE comments SET comment_comment_id = 2004 WHERE commentId = 2002;
 
 create table if not exists likes
 (
@@ -116,5 +120,10 @@ UPDATE articles
 SET likes = (SELECT COUNT(user_id)
              FROM likes
              WHERE articles.articleId = likes.articleId);
+
+update articles
+set comments = (select count(articleId)
+                from comments
+                where articles.articleId = comments.articleId);
 
 select user_id from users where userName='batman';

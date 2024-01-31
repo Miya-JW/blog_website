@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const userDao = require("../modules/users-dao");
-const articlesDao = require("../modules/articles-dao");
 
 router.use(function (req, res, next) {
     res.locals.user = req.session.user;
@@ -64,9 +63,10 @@ router.post("/newAccount", function (req, res) {
            userName:req.body.userName,
            password:req.body.password
        }
-       req.session.user = user;
-       userDao.createUser(user).then(r =>
-           res.redirect("./profile")).catch(err => {
+
+    userDao.createUser(user).then(newUser =>{
+        req.session.user=newUser[0];
+       res.redirect("./profile");})  .catch(err => {
            console.error(err);
            res.redirect("./login?show=register&message=Error creating account.");
        })

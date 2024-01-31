@@ -47,11 +47,9 @@ app.use(loginRouter);
 const articlesRouter = require("./routes/article-routes.js");
 app.use(articlesRouter);
 
+const profileRouter = require("./routes/profile-routes.js");
+app.use(profileRouter);
 
-
-app.get('/login', (req, res) => {
-    res.render('login');
-});
 
 
 

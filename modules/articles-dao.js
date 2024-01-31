@@ -37,6 +37,7 @@ async function retrieveAllArticlesSorted(sortBy) {
     return result
 }
 
+
 module.exports={
     createArticle,
     retrieveArticle,
