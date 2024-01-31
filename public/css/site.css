@@ -1,9 +1,9 @@
 @import url("./login.css");
 @import url("./button.css");
-@import url("./effects.css");
+
 
 @import url("./profile.css");
-
+@import url("./effects.css");
 
 :root {
     --background-color: #f0f5f9;
@@ -203,3 +203,45 @@ div.blog {
 }
 
 
+/*---------------------comment-----------------------------------------*/
+.comment_content{
+    background-color: #303245;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+}
+
+.comment_content_div{
+    background-color: var(--background-color-5);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.commenter_avatar{
+ width: 30px;
+    border-radius: 50%;
+}
+
+.comment_content{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0;
+    background-color: var(--background-color-6);
+    color:var(--font-color);
+}
+
+.comment_head{
+    display: flex;
+    /*flex-direction: row;*/
+    column-gap: 20px;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 5px;
+}

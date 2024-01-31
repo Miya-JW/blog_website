@@ -71,6 +71,7 @@ router.get('/get-comments/:articleId', async (req, res) => {
     const articleId = req.params.articleId;
     try {
         const comments = await commentsDao.getCommentsByArticleId(articleId);
+        console.log(`routes comments:${comments}`);
         res.json(comments);
     } catch (error) {
         res.status(500).send(error.message);

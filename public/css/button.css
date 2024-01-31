@@ -47,19 +47,38 @@ a:hover {
     transition: background-color 0.5s ease;
 }
 
-/*------------------------------------------heart & comment---------------------------------*/
-.heart, .comment {
+/*------------------------------------------heart & comment & delete &reply---------------------------------*/
+.buttons{
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+.heart, .comment ,.delete{
     width: 30px;
 }
 
-.heart_btn, .comment_btn {
+.heart_btn, .comment_btn ,.delete_btn, .comment_reply_btn,.comment_delete_btn{
     border: none;
     background-color: var(--background-color-6);
     cursor: pointer;
 }
 
+.heart_btn:disabled, .comment_btn:disabled ,.delete_btn:disabled{
+    cursor: not-allowed;
+}
+
+.comment_reply_btn,.comment_delete_btn{
+background-color: var(--background-color-5);
+}
+
+.reply,.comment_delete{
+    width: 20px;
+}
+
 /*----------------------------------------------login & profile---------------------------------*/
-.con-box button, .profile_container button {
+.con-box button, .profile_container button ,#done_btn{
     margin-top: 3%;
     background-color: var(--btn-color);
     color: #eee;
@@ -72,15 +91,15 @@ a:hover {
     padding: 5px 20px;
 }
 
-.con-box button:hover, .form-box button:hover, .profile_container button:hover {
+.con-box button:hover, .form-box button:hover, .profile_container button:hover ,#done_btn:hover{
     background-color: lightgrey;
     color: var(--btn-color);
     transition: background-color 0.5s ease;
 }
 
 
-.profile_container button {
-    width: 100px;
+.profile_container button ,#done_btn{
+    width: 120px;
     height: 35px;
     align-self: center;
     border-radius: 3px;
