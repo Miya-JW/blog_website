@@ -44,8 +44,8 @@ app.use(express.static(path.join(__dirname, "public")));
 const loginRouter = require("./routes/login-routes");
 app.use(loginRouter);
 
-const articlesRouter = require("./routes/article-routes.js");
-app.use(articlesRouter);
+const homeRouter = require("./routes/home-routes.js");
+app.use(homeRouter);
 
 const profileRouter = require("./routes/profile-routes.js");
 app.use(profileRouter);

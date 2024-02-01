@@ -1,5 +1,6 @@
 -- Your database initialisation SQL here
 drop table if exists likes;
+drop table if exists comment_comment;
 drop table if exists comments;
 drop table if exists articles;
 drop table if exists users;
@@ -34,9 +35,9 @@ create table if not exists articles
     title     varchar(100) not null,
     date      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content   text         not null,
-    image varchar(50),
+    image     varchar(50),
     likes     int,
-    comments int,
+    comments  int,
     author_id int          not null,
     foreign key (author_id) references users (user_id)
 );
@@ -87,19 +88,40 @@ create table if not exists comments
     content      varchar(255) not null,
     articleId    int          not null,
     commenter_id int          not null,
-    comment_comment_id int ,
-    foreign key (comment_comment_id) references comments(commentId),
+#     comment_comment_id int,
+#     foreign key (comment_comment_id) references comments (commentId),
     foreign key (articleId) references articles (articleId),
     foreign key (commenter_id) references users (user_id)
 );
 
-insert into comments(commentId, date, content, articleId,commenter_id)
-VALUES (2001, default, 'Why can''t you give a secret to a pig? Because it might squeal.', 1001,8003),
-       (2002, default, 'I have a joke about construction, but I''m still working on it.', 1002,8003),
+insert into comments(commentId, date, content, articleId, commenter_id)
+VALUES (2001, default, 'Why can''t you give a secret to a pig? Because it might squeal.', 1002, 8003),
+       (2002, default, 'I have a joke about construction, but I''m still working on it.', 1002, 8003),
        (2003, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8001),
-       (2004, default, 'Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002);
+       (2004, default, 'Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002),
+       (2005, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1003, 8003),
+       (2006, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1001, 8001);
 
-UPDATE comments SET comment_comment_id = 2004 WHERE commentId = 2002;
+# comment_comment_id is the parent comment id.
+create table if not exists comment_comment
+(
+    commentId          int not null,
+    comment_comment_id int not null,
+    primary key (commentId, comment_comment_id),
+    foreign key (commentId) references comments (commentId),
+    foreign key (comment_comment_id) references comments (commentId)
+
+);
+
+insert into comment_comment(commentId, comment_comment_id)
+VALUES (2001, 2004),
+       (2003, 2002);
+# UPDATE comments
+# SET comment_comment_id = 2004
+# WHERE commentId = 2002;
+# UPDATE comments
+# SET comment_comment_id = 2002
+# WHERE commentId = 2003;
 
 create table if not exists likes
 (
@@ -126,4 +148,5 @@ set comments = (select count(articleId)
                 from comments
                 where articles.articleId = comments.articleId);
 
-select user_id from users where userName='batman';
+
+

@@ -39,6 +39,37 @@ router.get('/sort-articles', async (req, res) => {
     }
 });
 
+router.post('/delete-article/:articleId', async (req, res) => {
+    try {
+        await articlesDao.deleteArticle(req.params.articleId);
+        res.status(200).send("Article deleted successfully.");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error deleting article.");
+    }
+});
+
+router.post('/check-if-author', async (req, res) => {
+    const { user_id, articleId } = req.body; // 从请求体中获取 userId 和 articleId
+
+    try {
+        console.log(`用户ID：${user_id}  文章ID：${articleId}`);
+        // 调用 DAO 方法检查给定用户是否为指定文章的作者
+        const isAuthor = await articlesDao.checkIfAuthor(user_id, articleId);
+        console.log(`是否作者：${isAuthor}`);
+        if (isAuthor) {
+            // 如果是作者，返回相应的 JSON 响应
+            res.json({ isAuthor: true, message: "User is the author of the article." });
+        } else {
+            // 如果不是作者，也返回一个 JSON 响应，但标识为非作者
+            res.json({ isAuthor: false, message: "User is not the author of the article." });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error while checking authorship.");
+    }
+});
+//-----------------------------likes--------------------------------------
 router.post('/like-article', async (req, res) => {
     const { articleId, userId } = req.body;
 
@@ -67,16 +98,27 @@ router.post('/like-article', async (req, res) => {
     }
 });
 
+//-----------------------------comments--------------------------------------
 router.get('/get-comments/:articleId', async (req, res) => {
     const articleId = req.params.articleId;
     try {
         const comments = await commentsDao.getCommentsByArticleId(articleId);
-        console.log(`routes comments:${comments}`);
+        // console.log(`routes comments:${comments}`);
         res.json(comments);
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
 
+router.get('/get-comment-comments/:commentId', async (req, res) => {
+    const commentId = req.params.commentId;
+    try {
+        const comments = await commentsDao.getCommentsByCommentId(commentId);
+        // console.log(`routes comments:${comments}`);
+        res.json(comments);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 
 module.exports = router;
