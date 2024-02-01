@@ -101,7 +101,7 @@ function updateArticles(articles,user_id) {
              <!-- ----------------------------comment button-->
              <button class="comment_btn" onclick="fetchAndShowComments(${article.articleId},${user_id})">
              <img class="comment" src="./image/comment_icon.jpg"><span> × ${article.comments}</span></button>
-             <button class="delete_btn" ><img class="delete" src="./image/delete_icon.jpg"></button>
+             <button class="delete_btn" data-article-id="${article.articleId}" onclick="deleteArticle(this,${user_id})" ><img class="delete" src="./image/delete_icon.jpg"></button>
              </div>
                         
              <div class="comment_area">

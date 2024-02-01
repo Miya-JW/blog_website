@@ -111,14 +111,44 @@ router.get('/get-comments/:articleId', async (req, res) => {
 });
 
 router.get('/get-comment-comments/:commentId', async (req, res) => {
-    const commentId = req.params.commentId;
+    const parentCommentId = req.params.commentId;
     try {
-        const comments = await commentsDao.getCommentsByCommentId(commentId);
-        // console.log(`routes comments:${comments}`);
+        const comments = await commentsDao.getCommentsByParentCommentId(parentCommentId);
+        // console.log(`返回结果成功`);
         res.json(comments);
     } catch (error) {
+        console.log(`返回json失败`);
         res.status(500).send(error.message);
     }
 });
+router.post('/delete-comment/:commentId', async (req, res) => {
+    try {
+        await commentsDao.deleteComment(req.params.commentId);
+        res.status(200).send("Comment deleted successfully.");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error deleting comment.");
+    }
+});
 
+router.post('/check-if-commenter', async (req, res) => {
+    const { user_id, commentId } = req.body; // 从请求体中获取 userId 和 articleId
+
+    try {
+        console.log(`用户ID：${user_id}  评论ID：${commentId}`);
+        // 调用 DAO 方法检查给定用户是否为指定评论的作者
+        const isCommenter = await commentsDao.checkIfCommenter(user_id,commentId );
+        console.log(`是否评论者：${isCommenter}`);
+        if (isCommenter) {
+            // 如果是作者，返回相应的 JSON 响应
+            res.json({ isAuthor: true, message: "User is the commenter of the comment." });
+        } else {
+            // 如果不是作者，也返回一个 JSON 响应，但标识为非作者
+            res.json({ isAuthor: false, message: "User is not the commenter of the comment." });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server error while checking commentership.");
+    }
+});
 module.exports = router;

@@ -33,8 +33,7 @@
                                     class="like_{{article.articleId}}"> × {{article.likes}}</span></button>
 
                             <!-- ----------------------------comment button-->
-                            <button class="comment_btn"
-                                    onclick="fetchAndShowComments({{article.articleId}},{{../user.user_id}})"
+                            <button class="comment_btn" onclick="fetchAndShowComments({{article.articleId}},{{../user.user_id}})"
                                     {{#unless ../user}}disabled{{/unless}}><img class="comment"
                                                                                 src="./image/comment_icon.jpg"><span> × {{article.comments}}</span>
                             </button>
