@@ -16,7 +16,12 @@ async function createUser(user) {
 async function retrieveUserIdByUsername(username) {
     const db=await database;
     const result = await db.query('select user_id from users where userName=?',[username]);
-    return result[0].user_id;
+    if (result[0]){
+        return result[0].user_id;
+    }else {
+        return null;
+    }
+
 }
 
 async function retrieveUserWithCredentials(username, password) {
@@ -24,14 +29,17 @@ async function retrieveUserWithCredentials(username, password) {
     const user_id = await retrieveUserIdByUsername(username);
 
     const rows = await db.query('select password from users where user_id = ?', [user_id]);
-    const hash = rows[0].password;
-    let user;
-    const match = await bcrypt.compare(password, hash);
-    if (match) {
-        const users = await db.query('select * from users where user_id = ?', [user_id]);
-        user = users[0];
-    }
-    return user;
+    if (rows[0]){
+        const hash = rows[0].password;
+        let user;
+        const match = await bcrypt.compare(password, hash);
+        if (match) {
+            const users = await db.query('select * from users where user_id = ?', [user_id]);
+            user = users[0];
+        }
+        return user;
+    }else {return null;}
+
 }
 
 async function verifyUserPassword(user_id,password){
@@ -93,6 +101,7 @@ return result.affectedRows > 0;
 async function checkUserExists(username){
     const db=await database;
     const result = await db.query("select * from users where userName=?",[username]);
+    console.log(result.length>0);
     return result.length>0;
 }
 
