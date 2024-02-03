@@ -29,6 +29,55 @@ router.get('/', async (req, res) => {
 
 });
 
+
+router.post('/create-new-article', async (req, res) => {
+    const { content,user_id,title } = req.body;
+    const newArticle=await articlesDao.createArticle(content,user_id,title);
+    console.log(content);
+    // 假设保存成功
+    res.json({ message: 'Article saved successfully',newArticle:newArticle });
+});
+
+router.get('/get-article-by-articleId', async (req, res) => {
+    try {
+        const articleId = req.query.articleId;
+        const article = await articlesDao.retrieveArticleByArticleId(articleId);
+        if (article) {
+            res.json(article);
+        } else {
+            res.status(404).send('Article not found');
+        }
+    } catch (error) {
+        console.error('Error getting article:', error);
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/update-article', async (req, res) => {
+    const { articleId, title, content } = req.body;
+    console.log(`在routes里 articleId：${articleId},title：${title},content：${content}`);
+    if (!articleId || !title || !content ) {
+        return res.status(400).send('All fields are required');
+    }
+
+    try {
+        const success = await articlesDao.updateArticle(articleId, title, content);
+        if (success) {
+            const newArticle = await articlesDao.retrieveArticleByArticleId(articleId);
+            res.json({ message: 'Article updated successfully',
+                articleId:newArticle.articleId,
+                title:newArticle.title,
+                content:newArticle.content
+
+            });
+        } else {
+            res.status(404).send('Article not found');
+        }
+    } catch (error) {
+        console.error('Error updating article:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 router.get('/sort-articles', async (req, res) => {
     try {
         const sortBy = req.query.sortBy;
@@ -50,7 +99,7 @@ router.post('/delete-article/:articleId', async (req, res) => {
 });
 
 router.post('/check-if-author', async (req, res) => {
-    const { user_id, articleId } = req.body; // 从请求体中获取 userId 和 articleId
+    const { user_id, articleId } = req.body;
 
     try {
         console.log(`用户ID：${user_id}  文章ID：${articleId}`);
@@ -131,8 +180,29 @@ router.post('/delete-comment/:commentId', async (req, res) => {
     }
 });
 
+router.post('/add-parent-comment/', async (req, res) => {
+    const { user_id, articleId ,content} = req.body;
+    try {
+        await commentsDao.createParentComment(user_id,articleId,content);
+        res.status(200).send("Comment added successfully.");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error adding comment.");
+    }
+});
+router.post('/add-child-comment/', async (req, res) => {
+    const { user_id, comment_comment_id ,content} = req.body;
+    try {
+        await commentsDao.createChildComment(user_id,comment_comment_id,content);
+        res.status(200).send("Comment added successfully.");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error adding comment.");
+    }
+});
+
 router.post('/check-if-commenter', async (req, res) => {
-    const { user_id, commentId } = req.body; // 从请求体中获取 userId 和 articleId
+    const { user_id, commentId } = req.body;
 
     try {
         console.log(`用户ID：${user_id}  评论ID：${commentId}`);

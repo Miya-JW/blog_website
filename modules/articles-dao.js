@@ -1,21 +1,40 @@
 const database = require("./database.js");
 
 
-async function createArticle(authorId,content,title){
-    const db = await database;
-    const result =  await db.query(
-        "insert into articles(title,content,author_name) values (?,?,?)",
-        [title, content, authorId]
-    );
+async function createArticle(content,user_id,title){
+    const db = await database
+    const result =  await db.query('insert into articles(title,content,author_id) values (?,?,?)', [title,content,user_id]);
+    // return result.affectedRows>0;
+    if (result.affectedRows > 0) {
+        // 使用insertId获取刚插入的文章信息
+        const newArticleId = result.insertId;
+        const newArticle = await db.query('SELECT * FROM articles WHERE articleId = ?', [newArticleId]);
+
+        // 假设db.query总是返回一个数组，即使是单个结果
+        return newArticle.length ? newArticle[0] : null;
+    } else {
+        return null; // 插入失败
+    }
 }
 
-async function retrieveArticle(authorId,articleId){}
+
+
+async function retrieveArticleByArticleId(articleId){
+    const db= await database;
+    const result = await db.query('select * from articles where articleId=?',[articleId]);
+    return result[0];
+}
+
+async function updateArticle(articleId, title, content){
+    console.log(`在dao里开始更改数据库 articleId：${articleId},title：${title},content：${content}`);
+    const db= await database;
+    const result = await db.query('update articles set title = ?, content = ? where articleId = ?',[title,content,articleId]);
+    return result.affectedRows>0;
+}
 
 async function deleteArticle(articleId){
     const db = await database;
     await db.query(`delete from comment_comment where commentId in (select commentId from comments where articleId = ?) or comment_comment_id in (select commentId from comments where articleId = ?)`, [articleId, articleId]);
-
-    // await db.query('DELETE FROM comment_comment WHERE comment_comment_id IN (SELECT commentId FROM comments WHERE articleId = ?)', [articleId]);
     await db.query('delete from comments where articleId=?',[articleId]);
     await db.query('delete from likes where articleId=?',[articleId]);
     await db.query('delete from articles where articleId=?',[articleId]);
@@ -49,23 +68,19 @@ from articles inner join users on articles.author_id = users.user_id order by ${
 async function checkIfAuthor(user_id,articleId){
     const db = await database;
     const result = await db.query('select * from articles where articleId=? and author_id=?',[articleId,user_id]);
-    console.log(`dao返回结果：${result}`);
+    console.log(`dao返回文章删除结果：${result}`);
     return result.length>0;
 }
-// async function checkIfCommentUser(articleId,user_id){
-//     const db = await database;
-//     const result = await db.query('select * from articles where articleId=? and author_id=?',[articleId,user_id]);
-//     return result.length>0;
-// }
+
 
 module.exports={
     createArticle,
-    retrieveArticle,
     retrieveAllArticlesById,
     checkIfAuthor,
     deleteArticle,
     retrieveAllArticles,
-    // checkIfCommentUser,
-    retrieveAllArticlesSorted
+    retrieveAllArticlesSorted,
+    retrieveArticleByArticleId,
+    updateArticle
 
 };

@@ -36,8 +36,8 @@ create table if not exists articles
     date      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     content   text         not null,
     image     varchar(50),
-    likes     int,
-    comments  int,
+    likes     int DEFAULT 0,
+    comments  int DEFAULT 0,
     author_id int          not null,
     foreign key (author_id) references users (user_id)
 );
@@ -95,12 +95,12 @@ create table if not exists comments
 );
 
 insert into comments(commentId, date, content, articleId, commenter_id)
-VALUES (2001, default, 'Why can''t you give a secret to a pig? Because it might squeal.', 1002, 8003),
-       (2002, default, 'I have a joke about construction, but I''m still working on it.', 1002, 8003),
-       (2003, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8001),
-       (2004, default, 'Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002),
-       (2005, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1003, 8003),
-       (2006, default, 'I told my wife she should embrace her mistakes. She gave me a hug.', 1001, 8001);
+VALUES (2001, default, '我是评论2001：Why can''t you give a secret to a pig? Because it might squeal.', 1002, 8003),
+       (2002, default, '我是评论2002：I have a joke about construction, but I''m still working on it.', 1002, 8003),
+       (2003, default, '我是评论2003：I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8001),
+       (2004, default, '我是评论2004：Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002),
+       (2005, default, '我是评论2005：I told my wife she should embrace her mistakes. She gave me a hug.', 1003, 8003),
+       (2006, default, '我是评论2006：I told my wife she should embrace her mistakes. She gave me a hug.', 1001, 8001);
 
 # comment_comment_id is the parent comment id.
 create table if not exists comment_comment

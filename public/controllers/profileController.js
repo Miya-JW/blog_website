@@ -62,7 +62,7 @@ function checkPasswordInputs() {
     }
 }
 
-//-----------------------------------------修改过程（修改区域，修改内容）----------------------------------
+//-----------------------------------------修改过程（修改区域，修改内容）-------------------------------
 async function editField(event, fieldId) {
     let value; //新内容
     //---------------------------------获得新内容----------------------------------------
@@ -112,7 +112,7 @@ async function editField(event, fieldId) {
                 console.error('Error:', error);
             });
 
-//修改其他内容（真实姓名，日期，简介）
+//修改其他内容（用户名，真实姓名，日期，简介）
     } else {
         value = document.querySelector(`#${fieldId}`).value;
     }
@@ -139,15 +139,13 @@ function fetchUpdateProfile(fieldId, value) {
             body: JSON.stringify({field: fieldId, value: value}),
         })
 
-            .then(response => {
-                response.text().then(text => console.log(text));
-            })
+            .then(response => response.json())
             .then(data => {
+                alert(data.message);
                 //更新页面头像
                 if (fieldId == 'avatar') {
                     completeUpdateAvatar(value);
                 }
-                alert("Update successful.");
             })
             .catch((error) => {
                 console.error('Error:', error);

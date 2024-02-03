@@ -55,11 +55,11 @@ a:hover {
     align-items: flex-end;
     justify-content: flex-end;
 }
-.heart, .comment ,.delete{
+.heart, .comment ,.delete,.article_edit_btn{
     width: 30px;
 }
 
-.heart_btn, .comment_btn ,.delete_btn, .comment_reply_btn,.comment_delete_btn{
+.heart_btn, .comment_btn ,.delete_btn, .comment_reply_btn,.comment_delete_btn,.add_comment,.comment_add_btn,.article_edit_btn{
     border: none;
     background-color: var(--background-color-6);
     cursor: pointer;
@@ -69,7 +69,7 @@ a:hover {
     cursor: not-allowed;
 }
 
-.comment_reply_btn,.comment_delete_btn{
+.comment_reply_btn,.comment_delete_btn,.add_comment,.comment_add_btn{
 background-color: var(--background-color-5);
 }
 
@@ -77,8 +77,19 @@ background-color: var(--background-color-5);
     width: 20px;
 }
 
+.add_comment,.comment_add_btn,.edit_article{
+    background-color: transparent;
+    width: 30px;
+    height: 30px;
+
+}
+
+.article_edit_btn{
+    margin-right: 10px;
+}
+
 /*----------------------------------------------login & profile---------------------------------*/
-.con-box button, .profile_container button ,#done_btn{
+.con-box button, .profile_container button ,#done_btn, #create_article_btn, #submitArticle,#submitEditedArticle{
     margin-top: 3%;
     background-color: var(--btn-color);
     color: #eee;
@@ -91,11 +102,61 @@ background-color: var(--background-color-5);
     padding: 5px 20px;
 }
 
-.con-box button:hover, .form-box button:hover, .profile_container button:hover ,#done_btn:hover{
+
+.con-box button:hover, .form-box button:hover, .profile_container button:hover ,#done_btn:hover, #submitArticle:hover,#submitEditedArticle:hover,#create_article_btn:hover{
     background-color: lightgrey;
     color: var(--btn-color);
     transition: background-color 0.5s ease;
 }
+
+#submitArticle{
+    margin-top: 10px;
+}
+
+/*-------------------------------create article button -------------------------------*/
+#create_article_btn{
+    background-image: linear-gradient(to right, var(--background-color-6), var(--btn-color));
+    color: var(--title-color);
+    padding: 20px 40px;
+    font-style: italic;
+    font-weight: bolder;
+    border: none;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+#create_article_btn:hover{
+    color: #eee;
+}
+
+#create_article_btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, var(--background-color-3), var(--background-color-4), transparent);
+    opacity: 0;
+    border-radius: 5px;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+@keyframes glow {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+#create_article_btn:hover::after {
+    animation: glow 2s infinite;
+}
+/*------------------------------------------------------------------*/
 
 
 .profile_container button ,#done_btn{
@@ -105,13 +166,15 @@ background-color: var(--background-color-5);
     border-radius: 3px;
 }
 
-#delete_btn {
+
+
+#delete_btn{
     width: 200px;
     background-color: #fff;
 }
 
 
-#delete_btn:hover {
+#delete_btn:hover{
     background-color: var(--active-color);
     color: var(--background-color-6);
     transition: background-color 0.5s ease;

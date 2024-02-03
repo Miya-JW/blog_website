@@ -27,7 +27,6 @@ router.post("/login", async function (req, res) {
 
     // Find a matching user in the database
     const user = await userDao.retrieveUserWithCredentials(username, password);
-
     // if there is a matching user...
     if (user) {
         // Auth success - add the user to the session, and redirect to the homepage.

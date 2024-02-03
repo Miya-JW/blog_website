@@ -100,6 +100,7 @@ return result.affectedRows > 0;
 
 async function checkUserExists(username){
     const db=await database;
+    console.log(`用户名：${username}`);
     const result = await db.query("select * from users where userName=?",[username]);
     console.log(result.length>0);
     return result.length>0;
