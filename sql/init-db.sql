@@ -88,8 +88,6 @@ create table if not exists comments
     content      varchar(255) not null,
     articleId    int          not null,
     commenter_id int          not null,
-#     comment_comment_id int,
-#     foreign key (comment_comment_id) references comments (commentId),
     foreign key (articleId) references articles (articleId),
     foreign key (commenter_id) references users (user_id)
 );
@@ -99,7 +97,7 @@ VALUES (2001, default, '我是评论2001：Why can''t you give a secret to a pig
        (2002, default, '我是评论2002：I have a joke about construction, but I''m still working on it.', 1002, 8003),
        (2003, default, '我是评论2003：I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8001),
        (2004, default, '我是评论2004：Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002),
-       (2005, default, '我是评论2005：I told my wife she should embrace her mistakes. She gave me a hug.', 1003, 8003),
+       (2005, default, '我是评论2005：I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8003),
        (2006, default, '我是评论2006：I told my wife she should embrace her mistakes. She gave me a hug.', 1001, 8001);
 
 # comment_comment_id is the parent comment id.
@@ -110,12 +108,12 @@ create table if not exists comment_comment
     primary key (commentId, comment_comment_id),
     foreign key (commentId) references comments (commentId),
     foreign key (comment_comment_id) references comments (commentId)
-
 );
 
 insert into comment_comment(commentId, comment_comment_id)
 VALUES (2001, 2004),
-       (2003, 2002);
+       (2003, 2002),
+(2005,2001);
 # UPDATE comments
 # SET comment_comment_id = 2004
 # WHERE commentId = 2002;
