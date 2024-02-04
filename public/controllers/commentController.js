@@ -1,74 +1,99 @@
 //-----------------------------comment------------------------
-function commentArticle(event, articleId, user_id) {
-//要去服务器获得comment回传更新页面-----------------然后再展开comment区域，加载comment
-}
+// function commentArticle(event, articleId, user_id) {
+// //要去服务器获得comment回传更新页面-----------------然后再展开comment区域，加载comment
+// }
 
-async function fetchAndShowComments(articleId,user_id) {
+async function fetchAndShowComments(articleId, user_id) {
     fetch(`/get-comments/${articleId}`)
         .then(response => response.json())
         .then(async comments => {
+                //------------------------------------开始重写--------
+                //  foreach：（HTML='';
+                // comment检查是否 parent child：
+                //
+                // IF
+                //  HTML= function parentHTML（comment）；
+                //  level 1：parent && ！child
+                //  html 里包含一个 children 插入区
+                //  找children，每个child 检查是否parent
+                //  是function parent——childHTML（comment） -否function childHTML（comment）
+                //
+                //ELSE IF
+                //  HTML= function parent——childHTML（comment）；
+                //  level 2： parent && child ------------需要写recursion-----------------
+                //  html 里包含一个 children 插入区
+                //  找children，每个child recursion foreach
+                //
+                //ELSE IF
+                //  HTML= function childHTML（comment）；
+                //  level last： ！parent
+                //  单独html
+                //  ）
+
+                //-----------------------------结束重写--------------
                 // console.log(`comments:${comments}`)
                 let commentsHtml = '';
-                let commentParentHtml='';
+                // let commentParentHtml='';
                 // let commentCommentsHtml = '';
-                for (const comment of comments) {
-                    // 确定评论下有没有子评论---------todo 两层评论还没做-----------------------------------------------------------
-                    // const response = await fetch(`/check-parent-comment/${comment.commentId}`);
-                    // const isParentComment = await response.json();
-                    // //如果有子评论------------------
-                    // if (isParentComment){
-                    //
-                    // }else {
-                    //
-                    // }
+                let commentCommentsHtml = '';
+            let newComments =[];
+                for (let comment of comments) {
+                    console.log(`for里面，评论ID：${comment.commentId}`);
 
-                    // 如果评论中comment_comment_id，说明有评论中的评论，需要显示，先从路由读取子评论
-                    console.log(`开始加载评论`);
-                    let commentCommentsHtml = '';
-
+                    //每个子评论的html
+                    // console.log(`comment.comment_comment_id:${comment.comment_comment_id}`);
+                    //确定是子评论：
                     if (comment.comment_comment_id != null) {
-                        console.log(`评论中的评论：${comment.comment_comment_id} 评论ID：${comment.commentId} `);
+                        console.log(`父评论：${comment.comment_comment_id} 子评论ID：${comment.commentId} `);
                         const commentId = comment.comment_comment_id;
 
                         const commentResponse = await fetch(`/get-comment-comments/${commentId}`);
-                        // -----------------------------
+                        // -------------获得子评论们----------------
                         const commentComments = await commentResponse.json();
-                        console.log(`controller收到json的第一个是：${commentComments[0]}`)
-
+                        console.log(`controller收到子评论数量是：${commentComments.length}`)
                         for (const commentComment of commentComments) {
                             // 针对每个子评论的操作-----------------------------------------------
-                            console.log(`开始插入评论中的评论`);
+                            console.log(`开始插入子评论:${commentComment.commentId}`);
 
                             commentCommentsHtml += `<div class="comment_comments_div">
                         <div class="comment_head">
                             <div><img class="commenter_avatar" src="./avatar/${commentComment.avatar}.jpg">
                                 <span>By:${commentComment.userName}</span></div>
                             <div>
-                                <button class="comment_reply_btn"><img src="./image/reply.jpg" class="reply">
-                                </button>
-                                <button class="comment_delete_btn" onclick="deleteComment(this,${user_id})" data-comment-id="${commentComment.commentId}" ><img class="comment_delete" src="./image/delete_icon.jpg"></button>
+                                
+                                <button class="comment_delete_btn" onclick="deleteComment(this,${user_id},${comment.articleId})" data-comment-id="${commentComment.commentId}" ><img class="comment_delete" src="./image/delete_icon.jpg"></button>
                             </div>
 
                         </div>
                         <p class="comment_content">${commentComment.content}</p>
-                        <div class="comment_area">
-                            <input type="text" id="comment_${commentComment.articleId}" class=" input" name="content"
-                                   placeholder="Say something">
-                            <img src="./image/add_comment.jpg" class="add_comment">
-                        </div>
-                        <div class="comment_insert_area_${commentComment.commentId}"></div>
+                 
+                        
                     </div>`;
 
                         }
+                    }else {
+                        newComments.push(comment);
+
                     }
+                }
+
+
+                for (let comment of newComments) {
+                    console.log(`开始加载评论：${comment.commentId}`);
                     console.log(`开始写评论html`);
                     commentsHtml += `<div class="comment_content_div">
                             <div class="comment_head">
                                 <div><img class="commenter_avatar" src="./avatar/${comment.avatar}.jpg">
                                     <span>By:${comment.userName}</span></div>
-                                    <div><button class="comment_reply_btn"><img src="./image/reply.jpg" class="reply"></button>
-                            <button class="comment_delete_btn" data-comment-id="${comment.commentId}" onclick="deleteComment(this,${user_id})"> <img class="comment_delete" src="./image/delete_icon.jpg"></button></div>
+                                    <div>
+                            <button class="comment_delete_btn" data-comment-id="${comment.commentId}" onclick="deleteComment(this,${user_id},${comment.articleId})"> <img class="comment_delete" src="./image/delete_icon.jpg"></button></div>
                             </div><p class="comment_content">${comment.content}</p>
+                            <div class="comment_area">
+                            <input type="text" id="comment_content_${comment.commentId}" class=" input comment_content_${comment.commentId}" name="content"
+                                   placeholder="Say something">
+                          <button class="comment_add_btn" onclick="addChildComment(this,${user_id})" data-comment-id1="${comment.commentId}" >
+                            <img src="./image/add_comment.jpg" class="add_comment" ></button>
+                        </div>
                             <div class="comment_insert_area_${comment.articleId}">${commentCommentsHtml}</div></div>`;
                 }
 
@@ -81,7 +106,7 @@ async function fetchAndShowComments(articleId,user_id) {
         ).catch(error => console.error('Error:', error));
 }
 
-function deleteComment(buttonElement,user_id){
+function deleteComment(buttonElement, user_id,articleId) {
     const commentId = buttonElement.getAttribute('data-comment-id');
     fetch(`/check-if-commenter`, {
         method: 'POST',
@@ -95,16 +120,25 @@ function deleteComment(buttonElement,user_id){
     }).then(response => {
         if (response.ok) {
             response.json().then(data => {
-                if(data.isAuthor) {
+                if (data.isAuthor) {
                     // 用户是评论者，执行删除操作
                     fetch(`/delete-comment/${commentId}`, {
                         method: 'POST',
-                    }).then(response => {
-                        if (response.ok) {
+                    }).then(response=> response.json()) // 首先转换响应为JSON
+                        .then(data  => {
+                        if (data.success) {
                             alert("Comment deleted successfully.");
-                            // 从页面上移除评论元素------------------------todo-----更新评论数字----------
+                            // 从页面上移除评论元素------------------------todo-----
+                            // console.log(`从服务器传回的新评论总数：${data.newCommentNum}`);
 
                             buttonElement.closest('.comment_comments_div').remove();
+                            const commentSpans = document.querySelectorAll(`.comment_${articleId}`);
+                            commentSpans.forEach(commentSpan => {
+                                commentSpan.textContent = ` × ${data.newCommentNum}`;
+                                // console.log(data.newLikeCount);
+                            })
+
+
                         } else {
                             alert("Failed to delete the comment.");
                         }
@@ -120,4 +154,72 @@ function deleteComment(buttonElement,user_id){
     }).catch(error => {
         console.error('Error:', error);
     });
+}
+
+function addParentComment(buttonElement, user_id){
+    const articleId=buttonElement.getAttribute('data-comment-id');
+    const contentValues = document.querySelectorAll(`.comment_content_${articleId}`);
+    let content;
+    contentValues.forEach(value=>{
+        let contentValue=value.value;
+        if (contentValue!=null){
+            content = contentValue;
+        }
+    })
+    // console.log(`新增评论内容：${content}`);
+    fetch(`/add-parent-comment/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: user_id,
+            articleId: articleId,
+            content:content
+        })
+    }).then(response => {
+        if (response.ok) {
+            alert("Comment successfully submitted");
+            document.querySelectorAll(`.comment_content_${articleId}`).forEach(input=>{
+                input.value='';
+            });
+
+        } else {
+            alert("Failed to submit the comment.");
+        }
+    }).catch(error => console.error('Error:', error));
+}
+function addChildComment(buttonElement, user_id) {
+    const commentId = buttonElement.getAttribute('data-comment-id1');
+    const contentValues = document.querySelectorAll(`.comment_content_${commentId}`);
+    let content;
+    contentValues.forEach(value=>{
+        let contentValue=value.value;
+        if (contentValue!=null){
+            content = contentValue;
+        }
+    })
+    // console.log(`新增评论内容：${content}`);
+
+    fetch(`/add-child-comment/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: user_id,
+            comment_comment_id: commentId,
+            content:content
+        })
+    }).then(response => {
+        if (response.ok) {
+            alert("Comment successfully submitted");
+            document.querySelector(`#comment_content_${commentId}`).value='';
+
+        } else {
+            alert("Failed to submit the comment.");
+        }
+    }).catch(error => console.error('Error:', error));
+
+
 }

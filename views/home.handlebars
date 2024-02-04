@@ -36,7 +36,8 @@
                             <button class="comment_btn" title=" Comment"
                                     onclick="fetchAndShowComments({{article.articleId}},{{../user.user_id}})"
                                     {{#unless ../user}}disabled{{/unless}}><img class="comment"
-                                                                                src="./image/comment_icon.jpg"><span> × {{article.comments}}</span>
+                                                                                src="./image/comment_icon.jpg">
+<!--                                <span class="comment_{{article.articleId}}"> × {{article.comments}}</span>-->
                             </button>
 
 
@@ -50,7 +51,7 @@
 
                         <!-- - -------------------------评论区-->
                         <div class="comment_area">
-                            <input type="text" id="comment_content_{{article.articleId}}" class=" input" name="content"
+                            <input type="text" id="comment_content_{{article.articleId}}" class=" input comment_content_{{article.articleId}}" name="content"
                                    placeholder="Say something">
                             <button class="comment_add_btn" title=" Comment"  onclick="addParentComment(this,{{../user.user_id}})"
                                     data-comment-id="{{article.articleId}}">
@@ -202,7 +203,8 @@
                                 <button class="comment_btn" title=" Comment"
                                         onclick="fetchAndShowComments({{article.articleId}},{{../user.user_id}})"><img
                                         class="comment"
-                                        src="./image/comment_icon.jpg"><span> × {{article.comments}}</span>
+                                        src="./image/comment_icon.jpg">
+<!--                                    <span class="comment_{{article.articleId}}"> × {{article.comments}}</span>-->
                                 </button>
 
                                 <button class="delete_btn" title=" Delete article"  data-article-id="{{article.articleId}}"
@@ -213,7 +215,7 @@
 
                             <!--                        comment-->
                             <div class="comment_area">
-                                <input type="text" id="comment_{{article.articleId}}" class=" input" name="content"
+                                <input type="text" id="comment_{{article.articleId}}" class=" input comment_content_{{article.articleId}}" name="content"
                                        placeholder="Say something">
                                 <button class="comment_add_btn" title=" Comment"  onclick="addParentComment(this,{{../user.user_id}})"
                                         data-comment-id="{{article.articleId}}">

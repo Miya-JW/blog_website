@@ -138,7 +138,9 @@ router.post('/like-article', async (req, res) => {
 
         // 获取更新后的点赞数
         const newLikeCount = await likesDao.getLikeCount(articleId);
-        console.log(`routes newlikes count is:${newLikeCount}`)
+        console.log(`routes newlikes count is:${newLikeCount}`);
+        await articlesDao.updateArticleLikeNum(articleId,newLikeCount);
+
 
         res.json({ success: true, newLikeCount: newLikeCount.toString() });
     } catch (error) {
@@ -172,8 +174,12 @@ router.get('/get-comment-comments/:commentId', async (req, res) => {
 });
 router.post('/delete-comment/:commentId', async (req, res) => {
     try {
+        const articleId = await commentsDao.getCommentByCommentId(req.params.commentId);
         await commentsDao.deleteComment(req.params.commentId);
-        res.status(200).send("Comment deleted successfully.");
+        const newCommentNum = await commentsDao.getCommentsNum(articleId);
+        await articlesDao.updateArticleCommentNum(articleId,newCommentNum);
+        res.json({ success: true,message: "Comment deleted successfully.", newCommentNum: newCommentNum.toString() });
+
     } catch (error) {
         console.error(error);
         res.status(500).send("Error deleting comment.");
@@ -208,13 +214,17 @@ router.post('/check-if-commenter', async (req, res) => {
         console.log(`用户ID：${user_id}  评论ID：${commentId}`);
         // 调用 DAO 方法检查给定用户是否为指定评论的作者
         const isCommenter = await commentsDao.checkIfCommenter(user_id,commentId );
+        const comment = await commentsDao.getCommentByCommentId(commentId);
+        const articleId = comment.articleId;
+        console.log(`验证删除评论是否文章作者，文章id是：${articleId}`);
+        const isAuthor = await articlesDao.checkIfAuthor(user_id,articleId);
         console.log(`是否评论者：${isCommenter}`);
-        if (isCommenter) {
+        if (isCommenter||isAuthor) {
             // 如果是作者，返回相应的 JSON 响应
-            res.json({ isAuthor: true, message: "User is the commenter of the comment." });
+            res.json({ isAuthor: true, message: "User can delete this comment." });
         } else {
             // 如果不是作者，也返回一个 JSON 响应，但标识为非作者
-            res.json({ isAuthor: false, message: "User is not the commenter of the comment." });
+            res.json({ isAuthor: false, message: "User cannot delete this comment" });
         }
     } catch (error) {
         console.error(error);

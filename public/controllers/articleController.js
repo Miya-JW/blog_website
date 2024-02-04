@@ -58,7 +58,7 @@ document.querySelector('#submitArticle').addEventListener('click', function () {
 
              <!-- ----------------------------comment button-->
              <button class="comment_btn" title="Comment" onclick="fetchAndShowComments(${article.articleId},${user_id})">
-             <img class="comment" src="./image/comment_icon.jpg"><span> × ${article.comments}</span></button>
+             <img class="comment" src="./image/comment_icon.jpg"></button>
              <button class="delete_btn" title="Delete comment" data-article-id="${article.articleId}" onclick="deleteArticle(this,${user_id})" ><img class="delete" src="./image/delete_icon.jpg"></button>
              </div>
                         
@@ -258,7 +258,7 @@ function updateArticles(articles, user_id) {
 
              <!-- ----------------------------comment button-->
              <button class="comment_btn" title="Comment" onclick="fetchAndShowComments(${article.articleId},${user_id})">
-             <img class="comment" src="./image/comment_icon.jpg"><span> × ${article.comments}</span></button>
+             <img class="comment" src="./image/comment_icon.jpg"></button>
              <button class="delete_btn" title="Delete comment" data-article-id="${article.articleId}" onclick="deleteArticle(this,${user_id})" ><img class="delete" src="./image/delete_icon.jpg"></button>
              </div>
                         
