@@ -180,4 +180,15 @@ background-color: var(--background-color-5);
     transition: background-color 0.5s ease;
 }
 
+/* 关闭按钮样式 */
+.close {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 25px;
+}
 
+#editedArticleContent{
+    height: 100%;
+}
