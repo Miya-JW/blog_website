@@ -174,11 +174,13 @@ router.get('/get-comment-comments/:commentId', async (req, res) => {
 });
 router.post('/delete-comment/:commentId', async (req, res) => {
     try {
-        const articleId = await commentsDao.getCommentByCommentId(req.params.commentId);
-        await commentsDao.deleteComment(req.params.commentId);
-        const newCommentNum = await commentsDao.getCommentsNum(articleId);
-        await articlesDao.updateArticleCommentNum(articleId,newCommentNum);
-        res.json({ success: true,message: "Comment deleted successfully.", newCommentNum: newCommentNum.toString() });
+        // const articleId = await commentsDao.getCommentByCommentId(req.params.commentId);
+        // await commentsDao.deleteComment(req.params.commentId);
+        // const newCommentNum = await commentsDao.getCommentsNum(articleId);
+        // await articlesDao.updateArticleCommentNum(articleId,newCommentNum);
+        const commentId = req.params.commentId;
+        await commentsDao.deleteCommentAndReplies(commentId);
+        res.json({ success: true,message: "Comment deleted successfully." });
 
     } catch (error) {
         console.error(error);
@@ -211,14 +213,14 @@ router.post('/check-if-commenter', async (req, res) => {
     const { user_id, commentId } = req.body;
 
     try {
-        console.log(`用户ID：${user_id}  评论ID：${commentId}`);
+        // console.log(`用户ID：${user_id}  评论ID：${commentId}`);
         // 调用 DAO 方法检查给定用户是否为指定评论的作者
         const isCommenter = await commentsDao.checkIfCommenter(user_id,commentId );
         const comment = await commentsDao.getCommentByCommentId(commentId);
         const articleId = comment.articleId;
-        console.log(`验证删除评论是否文章作者，文章id是：${articleId}`);
+        // console.log(`验证删除评论是否文章作者，文章id是：${articleId}`);
         const isAuthor = await articlesDao.checkIfAuthor(user_id,articleId);
-        console.log(`是否评论者：${isCommenter}`);
+        console.log(`是否评论者：${isCommenter} 是否作者：${isAuthor}`);
         if (isCommenter||isAuthor) {
             // 如果是作者，返回相应的 JSON 响应
             res.json({ isAuthor: true, message: "User can delete this comment." });

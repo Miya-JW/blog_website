@@ -72,6 +72,17 @@ async function checkIfAuthor(user_id,articleId){
     return result.length>0;
 }
 
+async function updateArticleCommentNum(articleId,newCommentNum){
+    const db= await database;
+    const result = await db.query('update articles set comments = ? where articleId = ?',[newCommentNum,articleId]);
+    return result.affectedRows>0;
+}
+
+async function updateArticleLikeNum(articleId,newLikeNum){
+    const db= await database;
+    const result = await db.query('update articles set likes = ? where articleId = ?',[newLikeNum,articleId]);
+    return result.affectedRows>0;
+}
 
 module.exports={
     createArticle,
@@ -81,6 +92,8 @@ module.exports={
     retrieveAllArticles,
     retrieveAllArticlesSorted,
     retrieveArticleByArticleId,
-    updateArticle
+    updateArticle,
+    updateArticleCommentNum,
+    updateArticleLikeNum
 
 };

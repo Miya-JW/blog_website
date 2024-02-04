@@ -27,7 +27,7 @@ function renderComments(comments, container,user_id) {
                                  <div><img class="commenter_avatar" src="./avatar/${comment.avatar}.jpg">
                                      <span>By:${comment.userName}</span></div>
                                      <div>
-                             <button class="comment_delete_btn" data-comment-id="${comment.commentId}" onclick="deleteComment(this,(${user_id},${comment.articleId}))"> <img class="comment_delete" src="./image/delete_icon.jpg"></button></div>
+                             <button class="comment_delete_btn" data-comment-id="${comment.commentId}" onclick="deleteComment(this,${user_id},${comment.articleId})"> <img class="comment_delete" src="./image/delete_icon.jpg"></button></div>
                              </div><p class="comment_content">${comment.content}</p>
                              <div class="comment_area">
                              <input type="text" id="comment_content_${comment.commentId}" class=" input comment_content_${comment.commentId}" name="content"
@@ -66,6 +66,7 @@ async function fetchAndShowComments(articleId,user_id) {
 // ---------------------------------delete comment--------------------------------------
 function deleteComment(buttonElement, user_id,articleId) {
     const commentId = buttonElement.getAttribute('data-comment-id');
+    console.log(`删除评论时获得的评论ID：${commentId} 用户ID：${user_id}`);
     fetch(`/check-if-commenter`, {
         method: 'POST',
         headers: {

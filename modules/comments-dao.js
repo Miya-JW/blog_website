@@ -2,8 +2,7 @@ const database = require("./database.js");
 
 async function getCommentsByArticleId(articleId) {
     const db = await database;
-    const result = await db.query('SELECT c.commentId,c.date,c.articleId,c.content,c.commenter_id,cc.comment_comment_id,u.userName,u.avatar FROM comments AS c JOIN users AS u ON c.commenter_id = u.user_id LEFT JOIN comment_comment AS cc ON c.commentId = cc.commentId WHERE c.articleId = ?',[articleId]
-)
+    const result = await db.query('SELECT c.commentId,c.date,c.articleId,c.content,c.commenter_id,cc.comment_comment_id,u.userName,u.avatar FROM comments AS c JOIN users AS u ON c.commenter_id = u.user_id LEFT JOIN comment_comment AS cc ON c.commentId = cc.commentId WHERE c.articleId = ?', [articleId])
     return result;
 }
 
@@ -15,13 +14,13 @@ async function getCommentsByParentCommentId(parentCommentId) {
 
 async function isParentComment(commentId) {
     const db = await database;
-    const result = await db.query('select * from comment_comment where commentId=?',[commentId] );
+    const result = await db.query('select * from comment_comment where commentId=?', [commentId]);
     return result.length === 0;
 }
 
-async function isChildComment(commentId){
+async function isChildComment(commentId) {
     const db = await database;
-    const result = await db.query('select * from comment_comment where commentId=?',[commentId] );
+    const result = await db.query('select * from comment_comment where commentId=?', [commentId]);
     return result.length > 0;
 }
 
@@ -34,7 +33,7 @@ async function checkIfCommentUser(commentId, user_id) {
 
 async function deleteComment(commentId) {
     const db = await database;
-    const comments=await checkIfParentComment(commentId);
+    const comments = await checkIfParentComment(commentId);
     if (comments) {
         for (const comment of comments) {
             const commentId = comment.commentId;
@@ -48,48 +47,48 @@ async function deleteComment(commentId) {
     return result.affectedRows > 0;
 }
 
-async function checkIfParentComment(commentId){
+async function checkIfParentComment(commentId) {
     const db = await database;
     const comments = await db.query('select commentId from comment_comment where comment_comment_id=?', [commentId]);
-    if (comments.length>0){
+    if (comments.length > 0) {
         return comments;
-    }else {
+    } else {
         return null;
     }
 }
 
-async function checkIfCommenter(user_id,commentId){
+async function checkIfCommenter(user_id, commentId) {
     const db = await database;
-    const result = await db.query('select * from comments where commentId=? and commenter_id=?',[commentId,user_id]);
+    const result = await db.query('select * from comments where commentId=? and commenter_id=?', [commentId, user_id]);
     console.log(`dao返回删除评论结果：${result}`);
-    return result.length>0;
+    return result.length > 0;
 }
 
-async function createChildComment(user_id,comment_comment_id,content){
+async function createChildComment(user_id, comment_comment_id, content) {
     const db = await database;
     // 先用comment_comment_id 获得 articleId
     // 在用user_id
-    const articleId = await db.query('select articleId from comments where commentId=?',[comment_comment_id]);
+    const articleId = await db.query('select articleId from comments where commentId=?', [comment_comment_id]);
     console.log(`dao里返回的articleId：${articleId[0].articleId}   comment_comment_id：${comment_comment_id} `);
-    const newComment = await db.query('insert into comments(content, articleId, commenter_id) VALUES(?,?,?)',[content,articleId[0].articleId,user_id]);
-    const comment_comment = await db.query('insert into comment_comment(commentId, comment_comment_id)VALUES(?,?)',[newComment.insertId,comment_comment_id]);
-    return newComment.affectedRows>0;
+    const newComment = await db.query('insert into comments(content, articleId, commenter_id) VALUES(?,?,?)', [content, articleId[0].articleId, user_id]);
+    const comment_comment = await db.query('insert into comment_comment(commentId, comment_comment_id)VALUES(?,?)', [newComment.insertId, comment_comment_id]);
+    return newComment.affectedRows > 0;
 }
 
-async function createParentComment(user_id,articleId,content){
+async function createParentComment(user_id, articleId, content) {
     const db = await database;
-    const newComment = await db.query('insert into comments (content, articleId, commenter_id) VALUES(?,?,?)',[content,articleId,user_id]);
-    return newComment.affectedRows>0;
+    const newComment = await db.query('insert into comments (content, articleId, commenter_id) VALUES(?,?,?)', [content, articleId, user_id]);
+    return newComment.affectedRows > 0;
 }
 
-async function getCommentByCommentId(commentId){
+async function getCommentByCommentId(commentId) {
     const db = await database;
-    const result = await db.query('select * from comments where commentId=?',[commentId]);
+    const result = await db.query('select * from comments where commentId=?', [commentId]);
     console.log(`找到的评论是：${result[0]}`);
     return result[0];
 }
 
-async function getCommentsNum(articleId){
+async function getCommentsNum(articleId) {
     const db = await database;
     const rows = await db.query('select count(*) as commentsNum from comments where articleId = ?', [articleId]);
     if (rows.length > 0) {
@@ -100,6 +99,28 @@ async function getCommentsNum(articleId){
         return 0;
     }
 }
+
+async function deleteCommentAndReplies(commentId) {
+    // 第一步：找出所有子评论ID
+    const db = await database;
+    const childComments = await db.query(`select commentId from comment_comment where comment_comment_id = ? `, [commentId]);
+
+    // 第二步：如果有子评论的话，递归删除这些子评论
+    if (childComments.length>0){
+        for (const childComment of childComments) {
+            await deleteCommentAndReplies(childComment.commentId); // 递归删除
+        }
+    }
+
+
+
+    // 第三步：删除原评论
+    await db.query(` delete from comment_comment  where commentId = ?`, [commentId]);
+    await db.query(` delete from comments  where commentId = ?`, [commentId]);
+
+
+}
+
 
 module.exports = {
     getCommentsByArticleId,
@@ -112,5 +133,6 @@ module.exports = {
     createChildComment,
     createParentComment,
     getCommentByCommentId,
-    getCommentsNum
+    getCommentsNum,
+    deleteCommentAndReplies
 };
