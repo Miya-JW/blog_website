@@ -98,7 +98,7 @@ VALUES (2001, default, '我是评论2001：Why can''t you give a secret to a pig
        (2003, default, '我是评论2003：I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8001),
        (2004, default, '我是评论2004：Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002),
        (2005, default, '我是评论2005：I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8003),
-       (2006, default, '我是评论2006：I told my wife she should embrace her mistakes. She gave me a hug.', 1001, 8001);
+       (2006, default, '我是评论2006：I told my wife she should embrace her mistakes. She gave me a hug.', 1001, 8002);
 
 # comment_comment_id is the parent comment id.
 create table if not exists comment_comment
