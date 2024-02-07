@@ -11,7 +11,7 @@ router.use(function (req, res, next) {
 
 
 router.get("/profile", async function (req, res) {
-    // res.render("profile");
+
     if (req.session.user) {
         res.render("profile");
     } else {
@@ -24,7 +24,7 @@ router.post('/update-profile', async function (req, res) {
     const {field, value} = req.body;
     if (field == 'userName') {
         const exist = await userDao.checkUserExists(value);
-        console.log(`用户名验证结果：${exist}`);
+
         if (exist==false) {
             try {
                 const newUser = await userDao.updateUserProfile(req.session.user.user_id, field, value);
@@ -36,7 +36,7 @@ router.post('/update-profile', async function (req, res) {
         } else {
            return  res.json({message: 'Profile updated failed'});
            return  res.status(409).json({message: 'Username already exists'});
-            // res.json({message: 'Profile updated failed'});
+
         }
     } else {
         try {
@@ -49,15 +49,7 @@ router.post('/update-profile', async function (req, res) {
     }
 
 });
-// async function updateUser() {
-//     try {
-//         const newUser = await userDao.updateUserProfile(req.session.user.user_id, field, value);
-//         req.session.user = newUser;
-//         res.json({message: 'Profile updated successfully'});
-//     } catch (error) {
-//         res.status(500).send(error.message);
-//     }
-// }
+
 
 router.post('/verify-password', async (req, res) => {
     const user_id = req.session.user.user_id;

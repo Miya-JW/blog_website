@@ -55,31 +55,28 @@ async function verifyUserPassword(user_id,password){
 
 
 async function deleteUser(user_id) {
-    console.log(`user_id:${user_id}`);
     const db=await database;
-    //------------------------------删除用户likes--------------------------------------------------------------
+    //------------------------------删除用户likes-delete likes-------------------------------------------------------------
     await db.query('delete from likes where user_id = ?',[user_id]);
     //------------------------------找comments id-----------------------------------------------------
     const userComments=await db.query('select commentId from comments where commenter_id = ?',[user_id]);
 
-    //------------------------------每个comment 去删除 comment_comment--------------------------------------
+    //------------------------------每个comment 去删除 comment_comment---For each comment, delete the corresponding comment_comment.-----------------------------------
     for (const row of userComments) {
         let commentId=row.commentId;
         await db.query('delete from comment_comment where commentId = ? ',[commentId]);
         await db.query('delete from comment_comment where comment_comment_id = ?',[commentId]);
     }
-    //------------------------------删除用户评论--------------------------------------------------------------
+    //------------------------------删除用户评论---delete comments-----------------------------------------------------------
 
     await db.query('delete from comments where commenter_id = ?',[user_id]);
 
-//------------------------------删除用户文章--------------------------------------------------------------
+//------------------------------删除用户文章------delete articles-----------------------------------
     const articles = await db.query('select * from articles where author_id=?',[user_id]);
-    console.log(`articles:${articles}`);
 
     if (articles){
         for (const article of articles) {
             const articleId=article.articleId;
-            console.log(`articleID:${articleId}`);
             await db.query('delete from comment_comment where commentId in (select commentId from comments where articleId = ?) OR comment_comment_id in (select commentId from comments where articleId = ?)',[articleId,articleId]);
             await db.query('delete from comments where articleId = ?',[articleId]);
             await db.query('delete from likes where articleId = ?',[articleId]);
@@ -88,7 +85,7 @@ async function deleteUser(user_id) {
 
         }
     }
-    //------------------------------删除用户-----------------------------------------------------
+    //------------------------------删除用户---delete account-------------------------------------------
     const result=await db.query('delete from users where user_id = ?',[user_id]);
 
 
@@ -100,9 +97,7 @@ return result.affectedRows > 0;
 
 async function checkUserExists(username){
     const db=await database;
-    console.log(`用户名：${username}`);
     const result = await db.query("select * from users where userName=?",[username]);
-    console.log(result.length>0);
     return result.length>0;
 }
 

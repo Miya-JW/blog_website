@@ -57,12 +57,6 @@
                                     data-comment-id="{{article.articleId}}">
                                 <img src="./image/add_comment.jpg" class="add_comment"></button>
                         </div>
-                        <!--                        <div class="comment_area">-->
-                        <!--                            <input type="text" id="comment_content_${commentComment.commentId}" class=" input" name="content"-->
-                        <!--                                   placeholder="Say something">-->
-                        <!--                            <button class="comment_add_btn" onclick="addComment(this,${user_id})" data-comment-id="${commentComment.commentId}" >-->
-                        <!--                                <img src="./image/add_comment.jpg" class="add_comment" ></button>-->
-                        <!--                        </div>-->
 
 
                         <div class="comments">
@@ -120,11 +114,11 @@
 
                         <!--                        每篇文章的div结束-->
                     </div>
-                    <!--                    每篇文章结束-->
+                    <!--每篇文章结束-->
                 {{/each}}
             </div>
 
-            <!--            如果没有文章的话-------------------------->
+            <!--            如果没有文章的话------If there are no articles.-------------------->
         {{else}}
             <p>No articles yet</p>
         {{/if}}

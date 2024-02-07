@@ -27,7 +27,6 @@ async function isChildComment(commentId) {
 async function checkIfCommentUser(commentId, user_id) {
     const db = await database;
     const result = await db.query('select c.commentId,c.date,c.articleId,c.content,c.commenter_id,cc.comment_comment_id from comments as c  left join comment_comment as cc on c.commentId = cc.commentId where c.commentId = ? and c.commenter_id=?', [commentId, user_id]);
-    // const result = await db.query('select * from comments where commentId=? and commenter_id=?',[commentId,user_id]);
     return result.length > 0;
 }
 
@@ -60,16 +59,14 @@ async function checkIfParentComment(commentId) {
 async function checkIfCommenter(user_id, commentId) {
     const db = await database;
     const result = await db.query('select * from comments where commentId=? and commenter_id=?', [commentId, user_id]);
-    console.log(`dao返回删除评论结果：${result}`);
     return result.length > 0;
 }
 
 async function createChildComment(user_id, comment_comment_id, content) {
     const db = await database;
     // 先用comment_comment_id 获得 articleId
-    // 在用user_id
+    //First, use comment_comment_id to get articleId.
     const articleId = await db.query('select articleId from comments where commentId=?', [comment_comment_id]);
-    console.log(`dao里返回的articleId：${articleId[0].articleId}   comment_comment_id：${comment_comment_id} `);
     const newComment = await db.query('insert into comments(content, articleId, commenter_id) VALUES(?,?,?)', [content, articleId[0].articleId, user_id]);
     const comment_comment = await db.query('insert into comment_comment(commentId, comment_comment_id)VALUES(?,?)', [newComment.insertId, comment_comment_id]);
     return newComment.affectedRows > 0;
@@ -84,7 +81,6 @@ async function createParentComment(user_id, articleId, content) {
 async function getCommentByCommentId(commentId) {
     const db = await database;
     const result = await db.query('select * from comments where commentId=?', [commentId]);
-    console.log(`找到的评论是：${result[0]}`);
     return result[0];
 }
 
@@ -92,32 +88,36 @@ async function getCommentsNum(articleId) {
     const db = await database;
     const rows = await db.query('select count(*) as commentsNum from comments where articleId = ?', [articleId]);
     if (rows.length > 0) {
-        // 返回评论数量
+        // 返回评论数量Return the number of comments.
         return rows[0].commentsNum;
     } else {
-        // 如果没有找到评论，返回0
+        // 如果没有找到评论，返回0 If no comments are found, return 0.
         return 0;
     }
 }
 
 async function deleteCommentAndReplies(commentId) {
-    // 第一步：找出所有子评论ID
+    // 第一步：找出所有子评论ID Step one: Find all the IDs of the sub-comments.
     const db = await database;
-    const childComments = await db.query(`select commentId from comment_comment where comment_comment_id = ? `, [commentId]);
+    const childComments = await db.query(`select commentId
+                                          from comment_comment
+                                          where comment_comment_id = ? `, [commentId]);
 
     // 第二步：如果有子评论的话，递归删除这些子评论
-    if (childComments.length>0){
+    //Step two: If there are sub-comments, recursively delete these sub-comments.
+    if (childComments.length > 0) {
         for (const childComment of childComments) {
-            await deleteCommentAndReplies(childComment.commentId); // 递归删除
+            await deleteCommentAndReplies(childComment.commentId);
         }
     }
 
-
-
-    // 第三步：删除原评论
-    await db.query(` delete from comment_comment  where commentId = ?`, [commentId]);
-    await db.query(` delete from comments  where commentId = ?`, [commentId]);
-
+    // 第三步：删除原评论 Step three: Delete the original comment.
+    await db.query(` delete
+                     from comment_comment
+                     where commentId = ?`, [commentId]);
+    await db.query(` delete
+                     from comments
+                     where commentId = ?`, [commentId]);
 
 }
 

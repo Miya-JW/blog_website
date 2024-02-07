@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
             user_articles = await articlesDao.retrieveAllArticlesById(req.session.user.user_id);
         }
-        // console.log(user);
+
         res.render("home", { articles: articles, user_articles: user_articles ,user: user });
 
     } catch (error) {
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
 router.post('/create-new-article', async (req, res) => {
     const { content,user_id,title } = req.body;
     const newArticle=await articlesDao.createArticle(content,user_id,title);
-    console.log(content);
+
     // 假设保存成功
     res.json({ message: 'Article saved successfully',newArticle:newArticle });
 });
@@ -55,7 +55,7 @@ router.get('/get-article-by-articleId', async (req, res) => {
 
 router.post('/update-article', async (req, res) => {
     const { articleId, title, content } = req.body;
-    console.log(`在routes里 articleId：${articleId},title：${title},content：${content}`);
+
     if (!articleId || !title || !content ) {
         return res.status(400).send('All fields are required');
     }
@@ -102,10 +102,11 @@ router.post('/check-if-author', async (req, res) => {
     const { user_id, articleId } = req.body;
 
     try {
-        console.log(`用户ID：${user_id}  文章ID：${articleId}`);
+
         // 调用 DAO 方法检查给定用户是否为指定文章的作者
+        //Check if the given user is the author of the specified article.
         const isAuthor = await articlesDao.checkIfAuthor(user_id, articleId);
-        console.log(`是否作者：${isAuthor}`);
+
         if (isAuthor) {
             // 如果是作者，返回相应的 JSON 响应
             res.json({ isAuthor: true, message: "User is the author of the article." });
@@ -124,21 +125,23 @@ router.post('/like-article', async (req, res) => {
 
     try {
         // 检查用户是否已经点赞该文章
+        //Check if the user has already liked the article.
         const alreadyLiked = await likesDao.checkIfUserLikedArticle(articleId, userId);
-       console.log(`alreadyLiked:${alreadyLiked}`);
+
         if (alreadyLiked) {
             // 如果已经点赞，取消点赞并减少点赞数
-            console.log("already liked");
+
             await likesDao.removeLike(articleId, userId);
         } else {
             // 如果尚未点赞，添加点赞并增加点赞数
-            console.log("add like");
+
             await likesDao.addLike(articleId, userId);
         }
 
         // 获取更新后的点赞数
+        //Obtain the updated number of likes.
         const newLikeCount = await likesDao.getLikeCount(articleId);
-        console.log(`routes newlikes count is:${newLikeCount}`);
+
         await articlesDao.updateArticleLikeNum(articleId,newLikeCount);
 
 
@@ -154,7 +157,7 @@ router.get('/get-comments/:articleId', async (req, res) => {
     const articleId = req.params.articleId;
     try {
         const comments = await commentsDao.getCommentsByArticleId(articleId);
-        // console.log(`routes comments:${comments}`);
+
         res.json(comments);
     } catch (error) {
         res.status(500).send(error.message);
@@ -165,19 +168,16 @@ router.get('/get-comment-comments/:commentId', async (req, res) => {
     const parentCommentId = req.params.commentId;
     try {
         const comments = await commentsDao.getCommentsByParentCommentId(parentCommentId);
-        // console.log(`返回结果成功`);
+
         res.json(comments);
     } catch (error) {
-        console.log(`返回json失败`);
+
         res.status(500).send(error.message);
     }
 });
 router.post('/delete-comment/:commentId', async (req, res) => {
     try {
-        // const articleId = await commentsDao.getCommentByCommentId(req.params.commentId);
-        // await commentsDao.deleteComment(req.params.commentId);
-        // const newCommentNum = await commentsDao.getCommentsNum(articleId);
-        // await articlesDao.updateArticleCommentNum(articleId,newCommentNum);
+
         const commentId = req.params.commentId;
         await commentsDao.deleteCommentAndReplies(commentId);
         res.json({ success: true,message: "Comment deleted successfully." });
@@ -213,14 +213,14 @@ router.post('/check-if-commenter', async (req, res) => {
     const { user_id, commentId } = req.body;
 
     try {
-        // console.log(`用户ID：${user_id}  评论ID：${commentId}`);
+
         // 调用 DAO 方法检查给定用户是否为指定评论的作者
         const isCommenter = await commentsDao.checkIfCommenter(user_id,commentId );
         const comment = await commentsDao.getCommentByCommentId(commentId);
         const articleId = comment.articleId;
-        // console.log(`验证删除评论是否文章作者，文章id是：${articleId}`);
+
         const isAuthor = await articlesDao.checkIfAuthor(user_id,articleId);
-        console.log(`是否评论者：${isCommenter} 是否作者：${isAuthor}`);
+
         if (isCommenter||isAuthor) {
             // 如果是作者，返回相应的 JSON 响应
             res.json({ isAuthor: true, message: "User can delete this comment." });

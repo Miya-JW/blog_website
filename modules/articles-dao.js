@@ -4,16 +4,16 @@ const database = require("./database.js");
 async function createArticle(content,user_id,title){
     const db = await database
     const result =  await db.query('insert into articles(title,content,author_id) values (?,?,?)', [title,content,user_id]);
-    // return result.affectedRows>0;
     if (result.affectedRows > 0) {
         // 使用insertId获取刚插入的文章信息
+        //Retrieve the information of the recently inserted article using insertId.
         const newArticleId = result.insertId;
         const newArticle = await db.query('SELECT * FROM articles WHERE articleId = ?', [newArticleId]);
 
-        // 假设db.query总是返回一个数组，即使是单个结果
+
         return newArticle.length ? newArticle[0] : null;
     } else {
-        return null; // 插入失败
+        return null; // 插入失败 Insertion failed
     }
 }
 
@@ -26,7 +26,6 @@ async function retrieveArticleByArticleId(articleId){
 }
 
 async function updateArticle(articleId, title, content){
-    console.log(`在dao里开始更改数据库 articleId：${articleId},title：${title},content：${content}`);
     const db= await database;
     const result = await db.query('update articles set title = ?, content = ? where articleId = ?',[title,content,articleId]);
     return result.affectedRows>0;
@@ -62,13 +61,11 @@ async function retrieveAllArticlesSorted(sortBy) {
     const db=await database;
     const result = await db.query(`select articles.articleId, articles.title, articles.date, articles.content, articles.image, articles.likes, articles.comments, articles.author_id, users.userName as author_name
 from articles inner join users on articles.author_id = users.user_id order by ${sortBy} desc`);
-    // (`SELECT * FROM articles ORDER BY ${sortBy} DESC`);
     return result;
 }
 async function checkIfAuthor(user_id,articleId){
     const db = await database;
     const result = await db.query('select * from articles where articleId=? and author_id=?',[articleId,user_id]);
-    console.log(`dao返回文章删除结果：${result}`);
     return result.length>0;
 }
 

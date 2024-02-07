@@ -284,19 +284,19 @@ width: 80%;
 }
 
 /*-------------window---------------------*/
-/* 设置模态内容的样式 */
+
 .modal-content {
-    width: 50vw; /* 视口宽度的50% */
-    height: 50vh; /* 视口高度的50% */
-    background-color: #fff; /* 背景颜色 */
-    padding: 20px; /* 内边距 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加一些阴影效果 */
-    overflow: auto; /* 如果内容超出，则允许滚动 */
-    position: fixed; /* 使用固定定位 */
-    top: 20%; /* 顶部距离视口顶部的距离 */
-    left: 50%; /* 左侧距离视口左侧的距离 */
-    transform: translate(-50%, -50%); /* 通过转换来确保完全居中 */
-    border-radius: 10px; /* 边框圆角 */
+    width: 50vw;
+    height: 50vh;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
 }
 
 #articleModal_window{
@@ -312,6 +312,7 @@ width: 80%;
 
 /*---------------------------------------------------------*/
 /* 平板设备（屏幕宽度在 768px 到 1024px 之间） */
+/* Tablet devices (screen width between 768px and 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
     .grid_2 {
         grid-template-rows: auto auto;
@@ -344,6 +345,7 @@ width: 80%;
 }
 
 /* 手机设备（屏幕宽度小于 768px） */
+/* Mobile devices (screen width less than 768px) */
 @media (max-width: 767px) {
     .grid_2 {
         grid-template-rows: auto auto;

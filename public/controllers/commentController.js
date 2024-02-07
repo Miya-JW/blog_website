@@ -66,7 +66,6 @@ async function fetchAndShowComments(articleId,user_id) {
 // ---------------------------------delete comment--------------------------------------
 function deleteComment(buttonElement, user_id,articleId) {
     const commentId = buttonElement.getAttribute('data-comment-id');
-    console.log(`删除评论时获得的评论ID：${commentId} 用户ID：${user_id}`);
     fetch(`/check-if-commenter`, {
         method: 'POST',
         headers: {
@@ -81,20 +80,19 @@ function deleteComment(buttonElement, user_id,articleId) {
             response.json().then(data => {
                 if (data.isAuthor) {
                     // 用户是评论者，执行删除操作
+                    //user is the commenter, execute the deletion operation.
                     fetch(`/delete-comment/${commentId}`, {
                         method: 'POST',
-                    }).then(response=> response.json()) // 首先转换响应为JSON
+                    }).then(response=> response.json())
                         .then(data  => {
                         if (data.success) {
                             alert("Comment deleted successfully.");
-                            // 从页面上移除评论元素------------------------todo-----
-                            // console.log(`从服务器传回的新评论总数：${data.newCommentNum}`);
-
+                            // 从页面上移除评论元素------------
+                            //Remove the comment element from the page
                             buttonElement.closest('.comment_comments_div').remove();
                             const commentSpans = document.querySelectorAll(`.comment_${articleId}`);
                             commentSpans.forEach(commentSpan => {
                                 commentSpan.textContent = ` × ${data.newCommentNum}`;
-                                // console.log(data.newLikeCount);
                             })
 
 
@@ -104,6 +102,7 @@ function deleteComment(buttonElement, user_id,articleId) {
                     }).catch(error => console.error('Error:', error));
                 } else {
                     // 用户不是作者，不允许删除
+                    //If the user is not the author, deletion is not allowed.
                     window.alert('You are not the commenter!');
                 }
             });
@@ -123,12 +122,10 @@ function addParentComment(buttonElement, user_id){
     contentValues.forEach(value=>{
 
         let contentValue=value.value;
-        console.log(`每个input的value是：${contentValue}`);
         if (contentValue){
             content = contentValue;
         }
     })
-    console.log(`新增评论内容：${content}`);
     fetch(`/add-parent-comment/`, {
         method: 'POST',
         headers: {
@@ -153,7 +150,6 @@ function addParentComment(buttonElement, user_id){
 }
 function addChildComment(buttonElement, user_id) {
     const commentId = buttonElement.getAttribute('data-comment-id1');
-    console.log(`增加子评论时的评论ID是${commentId}`);
     const contentValues = document.querySelectorAll(`.comment_content_${commentId}`);
     let content;
     contentValues.forEach(value=>{
@@ -162,7 +158,7 @@ function addChildComment(buttonElement, user_id) {
             content = contentValue;
         }
     })
-    console.log(`新增评论内容：${content}`);
+
 
     fetch(`/add-child-comment/`, {
         method: 'POST',

@@ -9,7 +9,7 @@ document.querySelector('#create_article_btn').addEventListener('click', function
     }
 });
 
-// ----------------------------------------新增文章 成功后显示------------------------------
+// --------------新增文章 --- adding new article-----
 document.querySelector('#submitArticle').addEventListener('click', function () {
     // const content = tinymce.get('myeditor').getContent();
     const content = tinymce.get('myeditor').getContent({format: 'text'});
@@ -36,10 +36,10 @@ document.querySelector('#submitArticle').addEventListener('click', function () {
             // 选定包含文章的容器
             let user_articles = document.querySelector('.user_articles');
 
-            // 创建一个新的元素来放置文章
+            // 创建一个新的元素来放置文章 Create a new element to place the articles.
             let new_article = document.createElement('div');
 
-// ----------------------------------------设置新文章的内容------------------------------
+// -------------设置新文章的内容---Set the content for the new article.-------------------
 
 
 
@@ -75,7 +75,7 @@ document.querySelector('#submitArticle').addEventListener('click', function () {
              
              </div>`;
 
-            // 将新文章添加到容器的最前面
+            // 将新文章添加到容器的最前面 Add the new article to the front of the container.
 
             if (user_articles.firstChild) {
                 user_articles.insertBefore(new_article, user_articles.firstChild);
@@ -90,9 +90,9 @@ document.querySelector('#submitArticle').addEventListener('click', function () {
         });
 });
 
-//---------------------------edit article------------------todo  给新建文章button加onclick------
+//---------------------------edit article-----------------------
 
-// 给编辑按钮添加点击事件监听器
+// 给编辑按钮添加点击事件监听器 Add a click event listener to the edit button.
 document.querySelectorAll('.article_edit_btn').forEach(button => {
     button.addEventListener('click', function() {
         const articleId = this.getAttribute('data-article-id');
@@ -161,7 +161,7 @@ function updateArticle(articleId, title, content) {
         .then(response => response.json())
         .then(data => {
             alert('Article updated successfully');
-            // 在这里更新页面上的文章内容-------------------todo----------------------
+            // 在这里更新页面上的文章内容-------------------
 
 
             document.querySelector('#editArticleModal').style.display = 'none';
@@ -171,7 +171,7 @@ function updateArticle(articleId, title, content) {
 
 
 
-//-----------------------------------点击标题显示/折叠文章内容-----------------------------------
+//-------------点击标题显示/折叠文章内容-Click on the title to show/collapse the article content.-----
 function toggleContent(element) {
     document.querySelectorAll('.click').forEach(function (title) {
         title.addEventListener('click', function () {
@@ -181,7 +181,7 @@ function toggleContent(element) {
     });
 }
 
-//---------------------------------删除文章--------------------------------------
+//----------------删除文章----Delete article.-------------------
 function deleteArticle(buttonElement, user_id) {
     const articleId = buttonElement.getAttribute('data-article-id');
     fetch(`/check-if-author`, {
@@ -197,20 +197,20 @@ function deleteArticle(buttonElement, user_id) {
         if (response.ok) {
             response.json().then(data => {
                 if (data.isAuthor) {
-                    // 用户是作者，执行删除操作
+                    // 用户是作者，执行删除操作 If the user is the author, execute the deletion operation.
                     fetch(`/delete-article/${articleId}`, {
                         method: 'POST',
                     }).then(response => {
                         if (response.ok) {
                             alert("Article deleted successfully.");
-                            // 从页面上移除文章元素------------------------todo----删除用户文章部分的文章-----------
+                            //
                             buttonElement.closest('.article').remove();
                         } else {
                             alert("Failed to delete the article.");
                         }
                     }).catch(error => console.error('Error:', error));
                 } else {
-                    // 用户不是作者，不允许删除
+                    // 用户不是作者，不允许删除 If the user is not the author, deletion is not allowed.
                     window.alert('You are not the author!');
                 }
             });
@@ -223,7 +223,7 @@ function deleteArticle(buttonElement, user_id) {
 }
 
 
-//---------------------------------文章排序 ------------------------------------
+//---------------------------------文章排序 ---Article sorting.---------------------------------
 function sortArticles(sortBy, user_id) {
     fetch(`/sort-articles?sortBy=${sortBy}`)
         .then(response => response.json())
@@ -234,7 +234,7 @@ function sortArticles(sortBy, user_id) {
         .catch(error => console.error('Error:', error));
 }
 
-//--------------------排序完成 更新页面 todo--------------还没写好-----------------------
+//--------------------排序完成 更新页面Sorting complete, refresh the page.
 function updateArticles(articles, user_id) {
     const articlesContainer = document.querySelector('.showArticles');
     articlesContainer.innerHTML = '';
@@ -244,9 +244,8 @@ function updateArticles(articles, user_id) {
         console.log(`排序文章是：${article.title},${article.articleId}`);
         const articleDiv = document.createElement('div');
         articleDiv.classList.add('article');
-        articleDiv.innerHTML =
-            `<h2 class="click" onclick="toggleContent(this)">${article.title}</h2>
-             <p>By: <em>${article.author_name}</em></p>
+        articleDiv.innerHTML=` <h2 class="click" onclick="toggleContent(this)"> ${article.title}</h2>
+             <p>  <em>${article.author_name}</em>  </p>
              <p class="small_font">${article.date}</p>
 
              <p class="article_content hidden">${article.content}</p>
@@ -264,13 +263,17 @@ function updateArticles(articles, user_id) {
                         
              <div class="comment_area">
              <input type="text" id="comment_{{article.articleId}}" class=" input" name="content" placeholder="Say something">
+               <button class="comment_add_btn" title="Comment" onclick="addParentComment(this,${user_id})"
+                                    data-comment-id="{{article.articleId}}">
+                                <img src="./image/add_comment.jpg" class="add_comment"></button>
              </div>
              
              <div class="comments">
              <div class="comment_insert_area_${article.articleId}"></div>
              </div>
              
-             </div>`;
+             `;
+
 
         articlesContainer.appendChild(articleDiv);
     });

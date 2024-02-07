@@ -1,10 +1,11 @@
-//-----------------------------------选择头像弹窗-----------------------------
+//-----------------------------------选择头像弹窗-----Select avatar popup.------------------------
 function showAvatarModal() {
     let modal = document.querySelector('#avatarModal');
     modal.style.display = 'block';
 }
 
 //-------------------------------选择头像弹窗点击叉号关闭弹窗---------------------------------
+//Click the cross icon to close the select avatar popup
 let span = document.querySelector('.close');
 span.onclick = function () {
     let modal = document.querySelector('#avatarModal');
@@ -13,25 +14,27 @@ span.onclick = function () {
 
 
 // ------------------------------------profile页面点击done返回主页----------------------------
+//On the profile page, click 'Done' to return to the homepage.
 document.querySelector('#done_btn').addEventListener('click', function () {
     window.location.href = '/';
 })
 
-//-------------------------------修改密码：点击修改键-出现确认键+新密码输入框，隐藏修改键---------------------------------
+//-------------------------------修改密码：点击修改键-出现确认键+新密码输入框，隐藏修改键----------------
+//Change password: Click the change button - a confirm button and a new password input field appear, hiding the change button.
 function modifyPassword(event, fieldId) {
     event.preventDefault();
-    // 显示新密码和确认密码输入框
+    // 显示新密码和确认密码输入框Display new password and confirm password input fields
     let newPasswordDiv = document.querySelector('#newPasswordDiv');
     let newPasswordConfirmDiv = document.querySelector('#newPasswordConfirmDiv');
     newPasswordDiv.style.display = 'block';
     newPasswordConfirmDiv.style.display = 'block';
 
-    // 清空当前密码输入框
+    // 清空当前密码输入框Clear the current password input field.
     let currentPasswordInput = document.querySelector(`#${fieldId}`);
     currentPasswordInput.value = '';
     let password = currentPasswordInput.value;
 
-    // 隐藏修改按钮，显示确认按钮
+    // 隐藏修改按钮，显示确认按钮Hide the change button, display the confirm button.
     let modifyButton = document.querySelector('#modify_btn');
     let confirmButton = document.querySelector('#confirm_btn');
     modifyButton.style.display = 'none';
@@ -42,19 +45,21 @@ function modifyPassword(event, fieldId) {
     document.querySelector('#newPassword').addEventListener('input', checkPasswordInputs);
     document.querySelector('#newPasswordConfirm').addEventListener('input', checkPasswordInputs);
 
-    //检查密码是否全部填写
+    //检查密码是否全部填写Check if all password fields are filled out.
     checkPasswordInputs();
 }
 
 //----------------------------------检查密码是否全部填写---------------------------------
+//Check if all password fields are filled out.
 function checkPasswordInputs() {
-    //选择密码内容和确认按键
+    //选择密码内容和确认按键Select password content and confirm button.
     let currentPassword = document.querySelector('#password').value;
     let newPassword = document.querySelector('#newPassword').value;
     let newPasswordConfirm = document.querySelector('#newPasswordConfirm').value;
     let confirmButton = document.querySelector('#confirm_btn');
 
     // 检查所有密码输入框是否都已填写，填写完毕开启确认键
+    //Check if all password input fields are filled; if completed, enable the confirm button
     if (currentPassword && newPassword && newPasswordConfirm) {
         confirmButton.disabled = false;
     } else {
@@ -62,17 +67,17 @@ function checkPasswordInputs() {
     }
 }
 
-//-----------------------------------------修改过程（修改区域，修改内容）-------------------------------
+//-----------------------------------------修改过程（修改区域，修改内容）---Password change process----------------------------
 async function editField(event, fieldId) {
-    let value; //新内容
-    //---------------------------------获得新内容----------------------------------------
-    //修改头像
+    let value; //新内容 new value
+    //---------------------------------获得新内容-----obtain new value-----------------------------------
+    //修改头像 new avatar value
     if (fieldId === 'avatar') {
         let src = event.target.src;
         let match = src.match(/\/avatar(\d+)\.jpg$/);
         value = match ? `avatar${match[1]}` : null;
 
-        //修改密码
+        //修改密码 new password value
     } else if (fieldId === 'password') {
         let oldPassword = document.querySelector('#password').value;
         let newPassword = document.querySelector('#newPassword').value;
@@ -96,16 +101,15 @@ async function editField(event, fieldId) {
                         value = confirmPassword;
 
                     } else {
-                        // 密码不一致
+                        // 密码不一致 passwords do not match
                         alert("Passwords do not match.");
                     }
 
                 } else {
-                    // 原始密码错误
+                    // 原始密码错误 password is incorrect
                     console.log('Password is incorrect.');
-                    // 显示错误消息
+                    // 显示错误消息 error message
                     alert("Password is incorrect.");
-                    // value="Password is incorrect.";
                 }
             })
             .catch(error => {
@@ -113,6 +117,7 @@ async function editField(event, fieldId) {
             });
 
 //修改其他内容（用户名，真实姓名，日期，简介）
+// new value:username,real name, date of birth, description
     } else {
         value = document.querySelector(`#${fieldId}`).value;
     }
@@ -123,10 +128,10 @@ async function editField(event, fieldId) {
 }
 
 
-//-----------------------------------去服务器更新DATABASE-----------------------
+//-----------------------------------去服务器更新DATABASE---update database--------------------
 function fetchUpdateProfile(fieldId, value) {
 
-    //密码验证失败的情况
+    //密码验证失败的情况In case of password verification failure
     if (value == undefined) {
         alert("Update failed!");
         //发送更新请求到服务器
@@ -142,7 +147,7 @@ function fetchUpdateProfile(fieldId, value) {
             .then(response => response.json())
             .then(data => {
                 alert(data.message);
-                //更新页面头像
+                //更新页面头像 Update the profile picture on the page.
                 if (fieldId == 'avatar') {
                     completeUpdateAvatar(value);
                 }
@@ -151,20 +156,21 @@ function fetchUpdateProfile(fieldId, value) {
                 console.error('Error:', error);
                 if (error.message === 'Username already exists') {
                     // 显示用户名已存在的消息
+                    //Display a message that the username already exists
                     displayUsernameExistsMessage();
                 }
             });
     }
 }
 
-//--------------用户名已存在 error-----------------------------
+//--------------用户名已存在username already exists error-----------------------------
 function displayUsernameExistsMessage() {
     const error = document.querySelector('#modify_username_error');
     error.textContent = 'Username already exists';
 
 }
 
-//---------------------------------------更新profile 页面头像显示--------------------------------
+//------更新profile 页面头像显示----Update the profile picture on the page----------------
 function completeUpdateAvatar(value) {
     let modal = document.querySelector('#avatarModal');
     modal.style.display = 'none';
@@ -173,17 +179,17 @@ function completeUpdateAvatar(value) {
 }
 
 //-------------------------------更改生日时变更type---------------
+//Change the input type when modifying the birthday."
 function changeTypeToDate(inputElement) {
     inputElement.type = 'date';
 }
 
-//------------------------------------------删除用户----------------------------------------
+//-------------------------删除用户----delete account -------------
 function deleteAccount(event, user_id) {
 //弹窗询问
     let userResponse = confirm("Are you sure you want to delete your account?");
     if (userResponse) {
         // 用户点击了"确定" 发送请求到服务器
-        console.log("User clicked Yes.");
         fetch('/delete-account', {
             method: 'POST',
             headers: {
@@ -193,7 +199,7 @@ function deleteAccount(event, user_id) {
         })
             .then(response => response.json())
             .then(data => {
-                //删除成功，重回主页
+                //删除成功，重回主页 Deletion successful, return to the homepage.
                 if (data.isValid == true) {
                     alert("Account has been deleted.");
                     window.location.href = '/';
@@ -206,7 +212,7 @@ function deleteAccount(event, user_id) {
                 alert("Error occurred while deleting the account.");
             });
     } else {
-        // 用户点击了"取消"
+        // 用户点击了"取消"The user clicked 'Cancel'.
         console.log("User clicked No.");
     }
 }
