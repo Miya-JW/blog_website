@@ -11,8 +11,8 @@
 First, fork this repository and then clone it to your local machine:
 
 ```bash
-git clone [https://github.com/Miya-JW/blog_website]
-cd [blog_website-name]
+git clone https://github.com/Miya-JW/blog_website.git
+cd blog_website
 ```
 
 ### 2.	Install Dependencies:
