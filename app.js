@@ -1,5 +1,5 @@
 // Load a .env file if one exists
-require('dotenv').config()
+require("dotenv").config();
 
 const express = require("express");
 const handlebars = require("express-handlebars");
@@ -9,9 +9,12 @@ const app = express();
 const port = process.env.EXPRESS_PORT || 3000;
 
 // Setup Handlebars
-app.engine("handlebars", handlebars.create({
-    defaultLayout: "main"
-}).engine);
+app.engine(
+  "handlebars",
+  handlebars.create({
+    defaultLayout: "main",
+  }).engine
+);
 app.set("view engine", "handlebars");
 
 // Set up to read POSTed form data
@@ -19,7 +22,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json({}));
 
 
-// TODO: Your app here
 // Setup body-parser
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,11 +32,13 @@ app.use(cookieParser());
 
 // Setup express-session
 const session = require("express-session");
-app.use(session({
+app.use(
+  session({
     resave: false,
     saveUninitialized: false,
-    secret: "CS719"
-}));
+    secret: "CS719",
+  })
+);
 
 // Make the "public" folder available statically
 const path = require("path");
@@ -50,9 +54,6 @@ app.use(homeRouter);
 const profileRouter = require("./routes/profile-routes.js");
 app.use(profileRouter);
 
-
-
-
 app.listen(port, function () {
-    console.log(`Web final project listening on http://localhost:${port}/`);
+  console.log(`Web final project listening on http://localhost:${port}/`);
 });

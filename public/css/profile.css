@@ -12,8 +12,8 @@
     grid-template-rows: repeat(2, auto);
     grid-template-columns: 1fr 4fr;
     grid-template-areas:
-          "avatar modify_area"
-    "delete_btn done_btn";
+        "avatar modify_area"
+        "delete_btn done_btn";
 }
 
 .profile-title {
@@ -33,9 +33,9 @@
     display: grid;
     grid-gap: 50px;
     grid-template-rows: repeat(5, auto);
-    grid-template-columns:  4fr 1fr;
+    grid-template-columns: 4fr 1fr;
     grid-template-areas:
-                " userName btn1"
+        " userName btn1"
         " password btn2"
         " real_name btn3"
         " date_of_birth btn4"
@@ -76,24 +76,35 @@
     flex-direction: column;
 }
 
-#userName_div, #password_div, #real_name_div, #date_of_birth_div, #description_div,.password_div {
+#userName_div,
+#password_div,
+#real_name_div,
+#date_of_birth_div,
+#description_div,
+.password_div {
     display: flex;
     position: relative;
 }
 
-#modify_userName, #modify_date_of_birth, #modify_password, #modify_real_name, #modify_description, #done_btn, #delete_btn {
+#modify_userName,
+#modify_date_of_birth,
+#modify_password,
+#modify_real_name,
+#modify_description,
+#done_btn,
+#delete_btn {
     display: flex;
     justify-content: center;
 }
 
-.password_div{
+.password_div {
     position: relative;
 }
-#modify_password_error,#verify_password_error{
+
+#modify_password_error,
+#verify_password_error {
     position: absolute;
 }
-
-
 
 #userName_div {
     grid-area: userName;
@@ -156,7 +167,7 @@
     height: 50px;
 }
 
-#description{
+#description {
     padding-top: 25px;
     font-size: inherit;
     font-style: italic;
@@ -174,8 +185,9 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
+
 .modal-content {
     background-color: var(--background-color-6);
     margin: 15% auto;
@@ -183,26 +195,28 @@
     border: 1px solid #eee;
     width: 80%;
 }
+
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
+
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
+
 .avatar-gallery img {
-   border-radius: 50%;
+    border-radius: 50%;
     width: 120px;
     cursor: pointer;
 }
 
-.avatar-gallery{
+.avatar-gallery {
     height: 300px;
     padding-top: 10px;
-
 }

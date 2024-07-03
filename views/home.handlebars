@@ -1,9 +1,7 @@
 <div class="blog {{#if user}}grid_3{{else}} grid_2{{/if}}">
     {{#if user}}
     <div class="public_content">{{/if}}
-
-
-    <div class="sort-area">
+       <div class="sort-area">
         <p>Sort by:</p>
         <button title="Sort by title" onclick="sortArticles('title',{{user.user_id}})">Title</button>
         <button title="Sort by date" onclick="sortArticles('date',{{user.user_id}})">Date</button>
@@ -13,7 +11,6 @@
     <div class="articles">
 
         {{#if articles}}
-
             <div class="showArticles">
                 {{#each articles as |article|}}
                     <div class="article">
@@ -23,33 +20,32 @@
 
                         <p class="article_content hidden">{{article.content}}</p>
 
-                        <!-- --------------------------------like  comment  delete 按钮                       -->
+                        <!----------------------------------like  comment  delete btns------------------------>
                         <div class="buttons">
                             <!-- ----------------------------like button-->
                             <button class="heart_btn" title=" Like"
                                     onclick="likeArticle(event,{{article.articleId}},{{../user.user_id}})"
-                                    {{#unless ../user}}disabled{{/unless}}><img class="heart"
-                                                                                src="./image/heart.jpg"><span
-                                    class="like_{{article.articleId}}"> × {{article.likes}}</span></button>
+                                    {{#unless ../user}}disabled{{/unless}}>
+                                    <img class="heart" src="./image/heart.jpg">
+                                    <span class="like_{{article.articleId}}"> × {{article.likes}}</span>
+                            </button>
 
                             <!-- ----------------------------comment button-->
                             <button class="comment_btn" title=" Comment"
                                     onclick="fetchAndShowComments({{article.articleId}},{{../user.user_id}})"
-                                    {{#unless ../user}}disabled{{/unless}}><img class="comment"
-                                                                                src="./image/comment_icon.jpg">
-<!--                                <span class="comment_{{article.articleId}}"> × {{article.comments}}</span>-->
+                                    {{#unless ../user}}disabled{{/unless}}>
+                                    <img class="comment" src="./image/comment_icon.jpg">
                             </button>
 
 
                             <!-- ----------------------------delete button-->
                             <button class="delete_btn" title=" Delete article"  data-article-id="{{article.articleId}}"
                                     onclick="deleteArticle(this,{{../user.user_id}})"
-                                    {{#unless ../user}}disabled{{/unless}} ><img class="delete"
-                                                                                 src="./image/delete_icon.jpg">
+                                    {{#unless ../user}}disabled{{/unless}} ><img class="delete" src="./image/delete_icon.jpg">
                             </button>
                         </div>
 
-                        <!-- - -------------------------评论区-->
+                        <!-- - -------------------------comment area-->
                         <div class="comment_area">
                             <input type="text" id="comment_content_{{article.articleId}}" class=" input comment_content_{{article.articleId}}" name="content"
                                    placeholder="Say something">
@@ -60,65 +56,16 @@
 
 
                         <div class="comments">
-                            <!--                            comment test-->
-                            <!--                            <div class="comment_content_div">-->
-                            <!--                                <div class="comment_head">-->
-                            <!--                                    <div><img class="commenter_avatar" src="./avatar/avatar01.jpg">-->
-                            <!--                                        <span>By:testUser</span></div>-->
-                            <!--                                    <div>-->
-                            <!--                                        <button class="comment_reply_btn"><img src="./image/reply.jpg" class="reply">-->
-                            <!--                                        </button>-->
-                            <!--                                        <button class="comment_delete_btn"><img class="comment_delete"-->
-                            <!--                                                                                src="./image/delete_icon.jpg"></button>-->
-                            <!--                                    </div>-->
-
-                            <!--                                </div>-->
-                            <!--                                <p class="comment_content">I'm the test comment.</p>-->
-
-                            <!--                                <div class="comment_area">-->
-                            <!--                                    <input type="text" id="comment_{{article.articleId}}" class=" input" name="content"-->
-                            <!--                                           placeholder="Say something">-->
-                            <!--                                    <img src="./image/add_comment.jpg" class="add_comment">-->
-                            <!--                                </div>-->
-
-                            <!--                                &lt;!&ndash;子评论区&ndash;&gt;-->
-                            <!--                                <div class="comment_comments_div">-->
-                            <!--                                    <div class="comment_head">-->
-                            <!--                                        <div><img class="commenter_avatar" src="./avatar/avatar01.jpg">-->
-                            <!--                                            <span>By:testUser</span></div>-->
-                            <!--                                        <div>-->
-                            <!--                                            <button class="comment_reply_btn"><img src="./image/reply.jpg"-->
-                            <!--                                                                                   class="reply">-->
-                            <!--                                            </button>-->
-                            <!--                                            <button class="comment_delete_btn"><img class="comment_delete"-->
-                            <!--                                                                                    src="./image/delete_icon.jpg">-->
-                            <!--                                            </button>-->
-                            <!--                                        </div>-->
-
-                            <!--                                    </div>-->
-                            <!--                                    <p class="comment_content">I'm the test comment.</p>-->
-                            <!--                                    <div class="comment_area">-->
-                            <!--                                        <input type="text" id="comment_{{article.articleId}}" class=" input"-->
-                            <!--                                               name="content"-->
-                            <!--                                               placeholder="Say something">-->
-                            <!--                                        <img src="./image/add_comment.jpg" class="add_comment">-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                                &lt;!&ndash;子评论区 end&ndash;&gt;-->
-                            <!--                            </div>-->
-                            <!--                            test 结束-->
-
-                            <!--                comment insert area-->
                             <div class="comment_insert_area_{{article.articleId}}"></div>
                         </div>
 
-                        <!--                        每篇文章的div结束-->
+                        <!--            indivisual article div end point    -->
                     </div>
-                    <!--每篇文章结束-->
+                    <!--indivisual articel end point-->
                 {{/each}}
             </div>
 
-            <!--            如果没有文章的话------If there are no articles.-------------------->
+            <!---------------------If there are no articles.-------------------->
         {{else}}
             <p>No articles yet</p>
         {{/if}}
@@ -169,18 +116,13 @@
 
 
             <h2>Blogosphere of <em>{{user.userName}}</em>:</h2>
-            <!--------------------------------------------用户文章------------------->
+            <!--------------------------------------------user articles------------------->
             {{#if user_articles}}
-
                 <div class="user_articles">
                     {{#each user_articles as |article|}}
                         <div class="article">
                             <h2 class="click" onclick="toggleContent(this)"><button class="article_edit_btn" title="Edit Article" data-article-id="{{article.articleId}}">
                                 <img src="./image/edit.jpg" class="edit_article"> </button>{{article.title}}</h2>
-
-
-
-
 
                             <p>Cooked up in my brain kitchen!</p>
                             <p class="small_font">{{article.date}}</p>
@@ -198,12 +140,11 @@
                                         onclick="fetchAndShowComments({{article.articleId}},{{../user.user_id}})"><img
                                         class="comment"
                                         src="./image/comment_icon.jpg">
-<!--                                    <span class="comment_{{article.articleId}}"> × {{article.comments}}</span>-->
+
                                 </button>
 
                                 <button class="delete_btn" title=" Delete article"  data-article-id="{{article.articleId}}"
-                                        onclick="deleteArticle(this,{{../user.user_id}})"><img class="delete"
-                                                                                               src="./image/delete_icon.jpg">
+                                        onclick="deleteArticle(this,{{../user.user_id}})"><img class="delete" src="./image/delete_icon.jpg">
                                 </button>
                             </div>
 
@@ -231,29 +172,12 @@
     {{/if}}
 </div>
 
-<!----------------edit article window-------------->
-<!--<div id="editArticleModal" class="modal">-->
-<!--    <div class="modal-content">-->
-<!--        <div class="writer">-->
-<!--            <div id="articleModal" >-->
-<!--                <input type="text" id=${article.articleId} value="${article.title}" >-->
-<!--                <textarea id="myeditor"> ${article.content}</textarea>-->
-<!--                <button title="Submit Article" id="submitEditedArticle" value="{{user.user_id}}">Launch Your Story</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <span class="close">&times;</span>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-
-
 
 
 <script src="./controllers/articleController.js"></script>
 <script src="./controllers/commentController.js"></script>
 
-<!-- 引入 TinyMCE -->
+<!-- inport TinyMCE -->
 <script src="https://cdn.tiny.cloud/1/9mz89sa84r5t32i6z6k0zjarz88jr93ikemdappru11safi1/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
 
@@ -261,7 +185,7 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
-        // 初始化 TinyMCE 编辑器
+        // initial TinyMCE editor
         tinymce.init({
             selector: '#myeditor',
             plugins: 'lists link image',

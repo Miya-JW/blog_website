@@ -1,51 +1,82 @@
--- Your database initialisation SQL here
 drop table if exists likes;
+
 drop table if exists comment_comment;
+
 drop table if exists comments;
+
 drop table if exists articles;
+
 drop table if exists users;
 
-create table if not exists users
-(
-    user_id       int          not null auto_increment primary key,
-    userName      varchar(30)  not null,
-    password      varchar(100) not null,
-    real_name     varchar(30),
+create table if not exists users (
+    user_id int not null auto_increment primary key,
+    userName varchar(30) not null,
+    password varchar(100) not null,
+    real_name varchar(30),
     date_of_birth varchar(30),
-    description   text,
-    avatar        varchar(50)
+    description text,
+    avatar varchar(50)
 );
 
-insert into users(user_id, userName, password, real_name, date_of_birth, description, avatar)
-VALUES (8001, 'batman', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Bruce Wayne', '1985-02-19',
+insert into
+    users(
+        user_id,
+        userName,
+        password,
+        real_name,
+        date_of_birth,
+        description,
+        avatar
+    )
+VALUES
+    (
+        8001,
+        'batman',
+        '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG',
+        'Bruce Wayne',
+        '1985-02-19',
         ' I am Batman, the Dark Knight of Gotham. Behind the mask is Bruce Wayne, a businessman by day, but by night, I stand as a symbol of justice, fighting against the corruption and crime that plague my city.',
-        'avatar15'),
-       (8002, 'captain_america', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Steve Rogers',
+        'avatar15'
+    ),
+    (
+        8002,
+        'captain_america',
+        '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG',
+        'Steve Rogers',
         '1918-07-04',
         'Hello, I''m Steve Rogers, also known as Captain America. I was just a kid from Brooklyn until I joined the army during World War II and was chosen for the Super Soldier program. Now, I fight to protect the innocent and uphold justice, always standing for freedom and the American way.',
-        'avatar14'),
-       (8003, 'iron_man', '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG', 'Tony Stark', '1985-05-29',
+        'avatar14'
+    ),
+    (
+        8003,
+        'iron_man',
+        '$2b$10$A46OLBR4RizWF.sZiGuCC.KhuaSCjK0OH4Y.WYbm4Rw8SlSdFupnG',
+        'Tony Stark',
+        '1985-05-29',
         'Hi, I''m Tony Stark, better known to the world as Iron Man. You might also know me as the genius billionaire inventor who''s leading Stark Industries. I don''t just play with cutting-edge technology; I create it. When I''m not running my company or tinkering with a new piece of tech, I''m suited up in one of my Iron Man armors, fighting to protect the world from threats of any size.',
-        'avatar13');
+        'avatar13'
+    );
 
-
-create table if not exists articles
-(
-    articleId int          not null primary key auto_increment,
-    title     varchar(100) not null,
-    date      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    content   text         not null,
-    image     varchar(50),
-    likes     int DEFAULT 0,
-    comments  int DEFAULT 0,
-    author_id int          not null,
+create table if not exists articles (
+    articleId int not null primary key auto_increment,
+    title varchar(100) not null,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    content text not null,
+    image varchar(50),
+    likes int DEFAULT 0,
+    comments int DEFAULT 0,
+    author_id int not null,
     foreign key (author_id) references users (user_id)
 );
 
-
-
-insert into articles(articleId, title, date, content, author_id)
-VALUES (1001, 'The Values We Stand For', default, 'Hello, citizens. This is Steve Rogers, but many of you know me as Captain America. As I stand here today, I''m reminded of the journey we''ve all embarked on to protect the ideals this great nation was built upon. It''s not just about the battles fought on the front lines, but also about the daily struggles and triumphs of the American people.
+insert into
+    articles(articleId, title, date, content, author_id)
+VALUES
+    (
+        1001,
+        'The Values We Stand For',
+        default,
+        'Hello, citizens. This is Steve Rogers, but many of you know me as Captain America. As I stand here today, I''m reminded of the journey we''ve all embarked on to protect the ideals this great nation was built upon. It''s not just about the battles fought on the front lines, but also about the daily struggles and triumphs of the American people.
 
 Throughout my life, I''ve seen incredible changes and challenges. From the dark days of World War II to the complexities of the modern world, the essence of what makes us who we are remains the same – it''s our spirit, our resilience, and our unwavering commitment to freedom and justice.
 
@@ -56,8 +87,13 @@ As we move forward, let''s not forget the sacrifices of those who came before us
 Remember, every one of us can be a hero. It''s not about superpowers or fancy shields – it''s about heart. It''s about standing up for what we believe in, even in the face of adversity. Let''s work together, united in our common goals, to create a future that reflects the best of what we stand for.
 
 So, let''s roll up our sleeves and get to work. There''s much to be done, and together, we are strong. Together, we can continue to build a country and a world where freedom and justice are not just ideals, but realities for all.',
-        8002),
-       (1002, 'Guardian of the Night', default, 'This is Bruce Wayne, but in the shrouded veil of night, I am known as Batman. The streets of Gotham City harbor tales of shadows and secrets, and I am committed to upholding justice amidst these dark alleys. This city is my home, and protecting its people is my duty.
+        8002
+    ),
+    (
+        1002,
+        'Guardian of the Night',
+        default,
+        'This is Bruce Wayne, but in the shrouded veil of night, I am known as Batman. The streets of Gotham City harbor tales of shadows and secrets, and I am committed to upholding justice amidst these dark alleys. This city is my home, and protecting its people is my duty.
 
 In Gotham, darkness is not just a symbol of fear; it''s a reality that lurks around every corner. But it''s in this darkness that I find my strength and resolve. As Batman, I stand as a guardian, a silent protector who confronts the chaos and corruption that threaten our streets.
 
@@ -68,8 +104,13 @@ My journey has taught me that true strength lies not in the might of one''s fist
 The night might be dark, and the path I walk is a solitary one, but as long as Gotham needs me, I will continue to be its shield against the night. Remember, it''s not just the mask or the cape that makes a hero. It''s the choices we make and the actions we take.
 
 So to the people of Gotham, know this: you are not alone. In the darkest of times, look for the light, and if you cannot find it, be the light. Together, we can bring justice and peace to these streets.',
-        8001),
-       (1003, 'Innovation and Iron', default, 'Hey there, Tony Stark here, but you probably know me better as Iron Man. You see, in my world, it''s all about pushing the boundaries of what''s possible, blending the lines between technology and humanity. Stark Industries is at the forefront of that, and as its leader, I''m always looking for the next big leap forward.
+        8001
+    ),
+    (
+        1003,
+        'Innovation and Iron',
+        default,
+        'Hey there, Tony Stark here, but you probably know me better as Iron Man. You see, in my world, it''s all about pushing the boundaries of what''s possible, blending the lines between technology and humanity. Stark Industries is at the forefront of that, and as its leader, I''m always looking for the next big leap forward.
 
 Being Iron Man is more than just suiting up in advanced armor; it''s about taking responsibility for our actions, our inventions, and how they shape the world. Every circuit, every piece of tech in the Iron Man suit represents a decision I''ve made, a belief in a future where we use our intellect and resources for the greater good.
 
@@ -79,72 +120,118 @@ My journey has taught me a lot about humility, sacrifice, and what it truly mean
 
 So, to all the aspiring inventors, dreamers, and heroes out there, remember this - the future is built on dreams and determination. Keep pushing the limits, keep striving for better, and never forget that sometimes, the most powerful weapon we have is our ability to change and adapt.
 
-Iron Man out.', 8003);
+Iron Man out.',
+        8003
+    );
 
-create table if not exists comments
-(
-    commentId    int          not null primary key auto_increment,
-    date         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    content      varchar(255) not null,
-    articleId    int          not null,
-    commenter_id int          not null,
+create table if not exists comments (
+    commentId int not null primary key auto_increment,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    content varchar(255) not null,
+    articleId int not null,
+    commenter_id int not null,
     foreign key (articleId) references articles (articleId),
     foreign key (commenter_id) references users (user_id)
 );
 
-insert into comments(commentId, date, content, articleId, commenter_id)
-VALUES (2001, default, '我是评论2001：Why can''t you give a secret to a pig? Because it might squeal.', 1002, 8003),
-       (2002, default, '我是评论2002：I have a joke about construction, but I''m still working on it.', 1002, 8003),
-       (2003, default, '我是评论2003：I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8001),
-       (2004, default, '我是评论2004：Why don''t scientists trust atoms? Because they make up everything.', 1002, 8002),
-       (2005, default, '我是评论2005：I told my wife she should embrace her mistakes. She gave me a hug.', 1002, 8003),
-       (2006, default, '我是评论2006：I told my wife she should embrace her mistakes. She gave me a hug.', 1001, 8002);
+insert into
+    comments(commentId, date, content, articleId, commenter_id)
+VALUES
+    (
+        2001,
+        default,
+        'Why can''t you give a secret to a pig? Because it might squeal.',
+        1002,
+        8003
+    ),
+    (
+        2002,
+        default,
+        'I have a joke about construction, but I''m still working on it.',
+        1002,
+        8003
+    ),
+    (
+        2003,
+        default,
+        'I told my wife she should embrace her mistakes. She gave me a hug.',
+        1002,
+        8001
+    ),
+    (
+        2004,
+        default,
+        'Why don''t scientists trust atoms? Because they make up everything.',
+        1002,
+        8002
+    ),
+    (
+        2005,
+        default,
+        'I told my wife she should embrace her mistakes. She gave me a hug.',
+        1002,
+        8003
+    ),
+    (
+        2006,
+        default,
+        'I told my wife she should embrace her mistakes. She gave me a hug.',
+        1001,
+        8002
+    );
 
-# comment_comment_id is the parent comment id.
-create table if not exists comment_comment
-(
-    commentId          int not null,
+-- comment_comment_id is the parent comment id.
+create table if not exists comment_comment (
+    commentId int not null,
     comment_comment_id int not null,
     primary key (commentId, comment_comment_id),
     foreign key (commentId) references comments (commentId),
     foreign key (comment_comment_id) references comments (commentId)
 );
 
-insert into comment_comment(commentId, comment_comment_id)
-VALUES (2001, 2004),
-       (2003, 2002),
-(2005,2001);
-# UPDATE comments
-# SET comment_comment_id = 2004
-# WHERE commentId = 2002;
-# UPDATE comments
-# SET comment_comment_id = 2002
-# WHERE commentId = 2003;
+insert into
+    comment_comment(commentId, comment_comment_id)
+VALUES
+    (2001, 2004),
+    (2003, 2002),
+    (2005, 2001);
 
-create table if not exists likes
-(
+create table if not exists likes (
     articleId int not null,
-    user_id   int not null,
+    user_id int not null,
     primary key (articleId, user_id),
     foreign key (articleId) references articles (articleId),
     foreign key (user_id) references users (user_id)
 );
 
-insert into likes(articleId, user_id)
-VALUES (1002, 8002),
-       (1003, 8002),
-       (1001, 8001),
-       (1001, 8003);
+insert into
+    likes(articleId, user_id)
+VALUES
+    (1002, 8002),
+    (1003, 8002),
+    (1001, 8001),
+    (1001, 8003);
 
-UPDATE articles
-SET likes = (SELECT COUNT(user_id)
-             FROM likes
-             WHERE articles.articleId = likes.articleId);
+UPDATE
+    articles
+SET
+    likes = (
+        SELECT
+            COUNT(user_id)
+        FROM
+            likes
+        WHERE
+            articles.articleId = likes.articleId
+    );
 
-update articles
-set comments = (select count(articleId)
-                from comments
-                where articles.articleId = comments.articleId);
-
-
-
+update
+    articles
+set
+    comments = (
+        select
+            count(articleId)
+        from
+            comments
+        where
+            articles.articleId = comments.articleId
+    );

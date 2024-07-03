@@ -19,6 +19,7 @@
     font-size: x-small;
     margin-top: -20px;
 }
+
 /*----------------------------------------✅--------------------------------*/
 .success-indicator {
     display: none;
@@ -27,13 +28,16 @@
     font-size: 20px;
 }
 
-#success_userName,#success_avatar,#success_password,#success_real_name,#success_date_of_birth,#success_description{
 
-}
 
 @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
 }
 
 
@@ -42,7 +46,10 @@
     color: var(--active-color);
 }
 
-#username_error, #password_error,#modify_password_error ,#verify_password_error{
+#username_error,
+#password_error,
+#modify_password_error,
+#verify_password_error {
     color: var(--active-color);
     margin-top: -20px;
     padding-left: 120px;
@@ -55,28 +62,30 @@
     display: none;
 }
 
-.input:focus ~ .cut,
-.input:not(:placeholder-shown) ~ .cut {
+.input:focus~.cut,
+.input:not(:placeholder-shown)~.cut {
     transform: translateY(8px);
 }
 
 
-.input:focus ~ .iLabel,
-.input:not(:placeholder-shown) ~ .iLabel {
+.input:focus~.iLabel,
+.input:not(:placeholder-shown)~.iLabel {
     display: flex;
     transform: translateY(-30px) translateX(10px) scale(0.75);
     color: lightgrey;
 }
 
 
-.input:focus, .profile_container input:focus, .profile_container textarea:focus {
+.input:focus,
+.profile_container input:focus,
+.profile_container textarea:focus {
     color: var(--btn-color);
     outline: none;
     border: 1px solid lightgrey;
     transition: 0.5s;
 }
 
-.input:not(focus) ~ .iLabel {
+.input:not(focus)~.iLabel {
     color: #808097;
 }
 
@@ -84,7 +93,8 @@
     background-color: #06b;
 }
 
-.submit:disabled ,#confirm_btn:disabled{
+.submit:disabled,
+#confirm_btn:disabled {
     cursor: not-allowed;
     background-color: lightgrey;
     color: var(--btn-color);

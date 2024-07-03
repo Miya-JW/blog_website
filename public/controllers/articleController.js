@@ -1,72 +1,73 @@
 //------------------create article---------------------
-document.querySelector('#create_article_btn').addEventListener('click', function () {
-    let articleModal = document.querySelector('#articleModal');
-    if (articleModal.style.display === 'none' || articleModal.style.display === '') {
-        articleModal.style.display = 'block';
-
+document
+  .querySelector("#create_article_btn")
+  .addEventListener("click", function () {
+    let articleModal = document.querySelector("#articleModal");
+    if (
+      articleModal.style.display === "none" ||
+      articleModal.style.display === ""
+    ) {
+      articleModal.style.display = "block";
     } else {
-        articleModal.style.display = 'none';
+      articleModal.style.display = "none";
     }
-});
+  });
 
-// --------------新增文章 --- adding new article-----
-document.querySelector('#submitArticle').addEventListener('click', function () {
-    // const content = tinymce.get('myeditor').getContent();
-    const content = tinymce.get('myeditor').getContent({format: 'text'});
-    const user_id = document.querySelector('#submitArticle').value;
-    const title = document.querySelector('#new_article_title').value;
-    console.log(`文章作者是：${user_id}`);
-    fetch('/create-new-article', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            content: content,
-            user_id: user_id,
-            title: title
-        }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
+// ----------------- adding new article-----
+document.querySelector("#submitArticle").addEventListener("click", function () {
+  const content = tinymce.get("myeditor").getContent({ format: "text" });
+  const user_id = document.querySelector("#submitArticle").value;
+  const title = document.querySelector("#new_article_title").value;
+  fetch("/create-new-article", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      content: content,
+      user_id: user_id,
+      title: title,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
 
-            alert(`Article <${data.newArticle.title}>saved successfully!`);
-            const article = data.newArticle;
-            // 选定包含文章的容器
-            let user_articles = document.querySelector('.user_articles');
+      alert(`Article <${data.newArticle.title}>saved successfully!`);
+      const article = data.newArticle;
 
-            // 创建一个新的元素来放置文章 Create a new element to place the articles.
-            let new_article = document.createElement('div');
+      let user_articles = document.querySelector(".user_articles");
+      //  Create a new element to place the articles.
+      let new_article = document.createElement("div");
 
-// -------------设置新文章的内容---Set the content for the new article.-------------------
+      // ----------------Set the content for the new article.-------------------
 
-
-
-
-            new_article.innerHTML = ` <div class="article"><h2 class="click" onclick="toggleContent(this)"> <button class="article_edit_btn" title="Edit Article" data-article-id="${article.articleId}">
-                                    <img src="./image/edit.jpg" class="edit_article"></button>${article.title}</h2>
-             <p>Cooked up in my brain kitchen!</p>
-             <p class="small_font">${article.date}</p>
-
-             <p class="article_content hidden">${article.content}</p>
+      new_article.innerHTML = ` <div class="article">
+      <h2 class="click" onclick="toggleContent(this)"> 
+      <button class="article_edit_btn" title="Edit Article" data-article-id="${article.articleId}">
+        <img src="./image/edit.jpg" class="edit_article"></button>${article.title}</h2>
              
-             <div class="buttons">
-             <button class="heart_btn" title="Like" onclick="likeArticle(event,${article.articleId},${user_id})">
-             <img class="heart" src="./image/heart.jpg">
-             <span class="like_${article.articleId}"> × ${article.likes}</span></button>
+        <p>Cooked up in my brain kitchen!</p>
+        <p class="small_font">${article.date}</p>
+
+        <p class="article_content hidden">${article.content}</p>
+             
+        <div class="buttons">
+        <button class="heart_btn" title="Like" onclick="likeArticle(event,${article.articleId},${user_id})">
+        <img class="heart" src="./image/heart.jpg">
+        <span class="like_${article.articleId}"> × ${article.likes}</span></button>
 
              <!-- ----------------------------comment button-->
              <button class="comment_btn" title="Comment" onclick="fetchAndShowComments(${article.articleId},${user_id})">
              <img class="comment" src="./image/comment_icon.jpg"></button>
-             <button class="delete_btn" title="Delete comment" data-article-id="${article.articleId}" onclick="deleteArticle(this,${user_id})" ><img class="delete" src="./image/delete_icon.jpg"></button>
+             <button class="delete_btn" title="Delete comment" data-article-id="${article.articleId}" onclick="deleteArticle(this,${user_id})" >
+             <img class="delete" src="./image/delete_icon.jpg"></button>
              </div>
                         
              <div class="comment_area">
              <input type="text" id="comment_{{article.articleId}}" class=" input" name="content" placeholder="Say something">
-               <button class="comment_add_btn" title="Comment" onclick="addParentComment(this,${user_id})"
-                                    data-comment-id="{{article.articleId}}">
-                                <img src="./image/add_comment.jpg" class="add_comment"></button>
+               <button class="comment_add_btn" title="Comment" onclick="addParentComment(this,${user_id})" data-comment-id="{{article.articleId}}">
+               <img src="./image/add_comment.jpg" class="add_comment"></button>
              </div>
              
              <div class="comments">
@@ -75,53 +76,47 @@ document.querySelector('#submitArticle').addEventListener('click', function () {
              
              </div>`;
 
-            // 将新文章添加到容器的最前面 Add the new article to the front of the container.
+      // Add the new article to the front of the container.
 
-            if (user_articles.firstChild) {
-                user_articles.insertBefore(new_article, user_articles.firstChild);
-            } else {
-                user_articles.appendChild(new_article);
-            }
-
-
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+      if (user_articles.firstChild) {
+        user_articles.insertBefore(new_article, user_articles.firstChild);
+      } else {
+        user_articles.appendChild(new_article);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 });
 
 //---------------------------edit article-----------------------
 
-// 给编辑按钮添加点击事件监听器 Add a click event listener to the edit button.
-document.querySelectorAll('.article_edit_btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const articleId = this.getAttribute('data-article-id');
-        console.log(`开始修改文章，ID：${articleId}`);
-        fetchArticleAndShowModal(articleId);
-    });
+//  Add a click event listener to the edit button.
+document.querySelectorAll(".article_edit_btn").forEach((button) => {
+  button.addEventListener("click", function () {
+    const articleId = this.getAttribute("data-article-id");
+    fetchArticleAndShowModal(articleId);
+  });
 });
 
-
 function fetchArticleAndShowModal(articleId) {
-    fetch(`/get-article-by-articleId?articleId=${articleId}`)
-        .then(response => response.json())
-        .then(article => {
-            console.log(`获得被修改文章，ID：${articleId}`);
-            showModalWithArticle(article);
-        })
-        .catch(error => console.error('Error fetching article:', error));
+  fetch(`/get-article-by-articleId?articleId=${articleId}`)
+    .then((response) => response.json())
+    .then((article) => {
+      showModalWithArticle(article);
+    })
+    .catch((error) => console.error("Error fetching article:", error));
 }
 
 function showModalWithArticle(article) {
+  let modal = document.querySelector("#editArticleModal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "editArticleModal";
+    document.body.appendChild(modal);
+  }
 
-    let modal = document.querySelector('#editArticleModal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = "editArticleModal";
-        document.body.appendChild(modal);
-    }
-
-    modal.innerHTML = `
+  modal.innerHTML = `
         <div class="modal-content">
          <span class="close">&times;</span>
             <div class="writer">
@@ -134,120 +129,118 @@ function showModalWithArticle(article) {
            
         </div>`;
 
-    modal.style.display = 'block';
+  modal.style.display = "block";
 
-    document.querySelector('.close').addEventListener('click', function () {
-        modal.style.display = 'none';
-    });
+  document.querySelector(".close").addEventListener("click", function () {
+    modal.style.display = "none";
+  });
 
-    document.querySelector('#submitEditedArticle').addEventListener('click', function () {
-        const updatedTitle = document.querySelector('#editedArticleTitle').value;
-        const updatedContent = document.querySelector('#editedArticleContent').value;
-        console.log(`修改后title：${updatedTitle}`);
-        console.log(`修改后content：${updatedContent}`);
-        updateArticle(article.articleId, updatedTitle, updatedContent);
+  document
+    .querySelector("#submitEditedArticle")
+    .addEventListener("click", function () {
+      const updatedTitle = document.querySelector("#editedArticleTitle").value;
+      const updatedContent = document.querySelector(
+        "#editedArticleContent"
+      ).value;
+      updateArticle(article.articleId, updatedTitle, updatedContent);
     });
 }
 
 function updateArticle(articleId, title, content) {
-    console.log(`准备开始去数据库修改文章：文章ID：${articleId}， 新标题：${title}, 新内容：${content}`);
-    fetch('/update-article', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({articleId, title, content}),
+  fetch("/update-article", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ articleId, title, content }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert("Article updated successfully");
+      // update article-------------------
+      document.querySelector("#editArticleModal").style.display = "none";
     })
-        .then(response => response.json())
-        .then(data => {
-            alert('Article updated successfully');
-            // 在这里更新页面上的文章内容-------------------
-
-
-            document.querySelector('#editArticleModal').style.display = 'none';
-        })
-        .catch(error => console.error('Error updating article:', error));
+    .catch((error) => console.error("Error updating article:", error));
 }
 
-
-
-//-------------点击标题显示/折叠文章内容-Click on the title to show/collapse the article content.-----
+//--------------Click on the title to show/collapse the article content.-----
 function toggleContent(element) {
-    document.querySelectorAll('.click').forEach(function (title) {
-        title.addEventListener('click', function () {
-            let content = this.nextElementSibling.nextElementSibling.nextElementSibling;
-            content.classList.toggle('hidden');
-        });
+  document.querySelectorAll(".click").forEach(function (title) {
+    title.addEventListener("click", function () {
+      let content =
+        this.nextElementSibling.nextElementSibling.nextElementSibling;
+      content.classList.toggle("hidden");
     });
+  });
 }
 
-//----------------删除文章----Delete article.-------------------
+//--------------------Delete article.-------------------
 function deleteArticle(buttonElement, user_id) {
-    const articleId = buttonElement.getAttribute('data-article-id');
-    fetch(`/check-if-author`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            user_id: user_id,
-            articleId: articleId
-        })
-    }).then(response => {
-        if (response.ok) {
-            response.json().then(data => {
-                if (data.isAuthor) {
-                    // 用户是作者，执行删除操作 If the user is the author, execute the deletion operation.
-                    fetch(`/delete-article/${articleId}`, {
-                        method: 'POST',
-                    }).then(response => {
-                        if (response.ok) {
-                            alert("Article deleted successfully.");
-                            //
-                            buttonElement.closest('.article').remove();
-                        } else {
-                            alert("Failed to delete the article.");
-                        }
-                    }).catch(error => console.error('Error:', error));
+  const articleId = buttonElement.getAttribute("data-article-id");
+  fetch(`/check-if-author`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user_id: user_id,
+      articleId: articleId,
+    }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          if (data.isAuthor) {
+            //  If the user is the author, execute the deletion operation.
+            fetch(`/delete-article/${articleId}`, {
+              method: "POST",
+            })
+              .then((response) => {
+                if (response.ok) {
+                  alert("Article deleted successfully.");
+                  //
+                  buttonElement.closest(".article").remove();
                 } else {
-                    // 用户不是作者，不允许删除 If the user is not the author, deletion is not allowed.
-                    window.alert('You are not the author!');
+                  alert("Failed to delete the article.");
                 }
-            });
-        } else {
-            // 处理响应不成功的情况
-        }
-    }).catch(error => {
-        console.error('Error:', error);
+              })
+              .catch((error) => console.error("Error:", error));
+          } else {
+            //  If the user is not the author, deletion is not allowed.
+            window.alert("You are not the author!");
+          }
+        });
+      } else {
+        
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
 }
 
-
-//---------------------------------文章排序 ---Article sorting.---------------------------------
+//------------------------------------Article sorting.---------------------------------
 function sortArticles(sortBy, user_id) {
-    fetch(`/sort-articles?sortBy=${sortBy}`)
-        .then(response => response.json())
-        .then(data => {
-            // console.log(data);
-            updateArticles(data.articles, user_id);
-        })
-        .catch(error => console.error('Error:', error));
+  fetch(`/sort-articles?sortBy=${sortBy}`)
+    .then((response) => response.json())
+    .then((data) => {
+      updateArticles(data.articles, user_id);
+    })
+    .catch((error) => console.error("Error:", error));
 }
 
-//--------------------排序完成 更新页面Sorting complete, refresh the page.
+//--------------------Sorting complete, refresh the page.
 function updateArticles(articles, user_id) {
-    const articlesContainer = document.querySelector('.showArticles');
-    articlesContainer.innerHTML = '';
-    // console.log(articles);
+  const articlesContainer = document.querySelector(".showArticles");
+  articlesContainer.innerHTML = "";
 
-    articles.forEach(article => {
-        console.log(`排序文章是：${article.title},${article.articleId}`);
-        const articleDiv = document.createElement('div');
-        articleDiv.classList.add('article');
-        articleDiv.innerHTML=` <h2 class="click" onclick="toggleContent(this)"> ${article.title}</h2>
+
+  articles.forEach((article) => {
+    const articleDiv = document.createElement("div");
+    articleDiv.classList.add("article");
+    articleDiv.innerHTML = ` <h2 class="click" onclick="toggleContent(this)"> ${article.title}</h2>
              <p>  <em>${article.author_name}</em>  </p>
              <p class="small_font">${article.date}</p>
-
              <p class="article_content hidden">${article.content}</p>
              
              <div class="buttons">
@@ -274,38 +267,31 @@ function updateArticles(articles, user_id) {
              
              `;
 
-
-        articlesContainer.appendChild(articleDiv);
-    });
+    articlesContainer.appendChild(articleDiv);
+  });
 }
-
 
 //-------------------------------like-------------------------------
 function likeArticle(event, articleId, user_id) {
-    event.preventDefault();
-    // console.log(articleId,user_id);
-    fetch('/like-article', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({articleId: articleId, userId: user_id})
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // 更新点赞计数
-                const likeSpans = document.querySelectorAll(`.like_${articleId}`);
-                likeSpans.forEach(likeSpan => {
-                    likeSpan.textContent = ` × ${data.newLikeCount}`;
-                    // console.log(data.newLikeCount);
-                })
-
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+  event.preventDefault();
+  fetch("/like-article", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ articleId: articleId, userId: user_id }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        // update likes
+        const likeSpans = document.querySelectorAll(`.like_${articleId}`);
+        likeSpans.forEach((likeSpan) => {
+          likeSpan.textContent = ` × ${data.newLikeCount}`;
         });
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
-
-

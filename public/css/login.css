@@ -64,7 +64,8 @@
 }
 
 
-.login-box, .register-box {
+.login-box,
+.register-box {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,7 +106,9 @@
     margin-top: 25px;
 }
 
-.input, .profile_container input ,.profile_container textarea{
+.input,
+.profile_container input,
+.profile_container textarea {
     background-color: #303245;
     border-radius: 12px;
     border: 0;
@@ -158,7 +161,3 @@
     text-align: center;
     width: 100%;
 }
-
-
-
-
